@@ -7,156 +7,142 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&display=swap" rel="stylesheet">
-
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
-    }
-
-    body { 
-      background: #fff0f5; 
-      font-family: 'Mali', cursive, sans-serif; 
-      text-align: center; 
-      padding: 24px 16px; 
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
-      min-height: 100vh; 
-      color: #4a4a4a;
-      transition: background-color 0.4s ease;
-    }
-    
-    .bgm-control { 
-      position: fixed; 
-      top: 16px; 
-      right: 16px; 
-      background: #ffffff; 
-      border: 1.5px solid #ffccd5; 
-      padding: 6px 14px; 
-      border-radius: 20px; 
-      font-size: 12.5px; 
-      font-family: 'Mali', cursive, sans-serif; 
-      font-weight: 600;
-      cursor: pointer; 
-      color: #ff4d6d; 
-      box-shadow: 0 2px 8px rgba(255, 182, 193, 0.2); 
-      z-index: 100;
       user-select: none;
+      -webkit-user-select: none;
     }
 
-    .card { 
-      background: #ffffff; 
-      border-radius: 28px; 
-      padding: 24px 18px; 
-      box-shadow: 0 10px 30px rgba(255, 182, 193, 0.2); 
-      max-width: 360px; 
-      width: 100%; 
-      border: 2px solid #ffe3eb; 
-      transition: border-color 0.4s ease;
+    body {
+      background: #fff0f5;
+      font-family: 'Mali', cursive, sans-serif;
+      text-align: center;
+      padding: 24px 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #4a4a4a;
+    }
+
+    .bgm-control {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      background: #ffffff;
+      border: 1.5px solid #ffccd5;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-family: 'Mali', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      color: #ff4d6d;
+      box-shadow: 0 2px 8px rgba(255, 182, 193, 0.3);
+      z-index: 9999;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 26px;
+      padding: 22px 16px;
+      box-shadow: 0 10px 30px rgba(255, 182, 193, 0.25);
+      max-width: 360px;
+      width: 100%;
+      border: 2px solid #ffe3eb;
+      margin: auto;
+      height: auto;
+      overflow: visible;
     }
 
     .brand-tag {
       font-size: 11px;
-      letter-spacing: 2px;
+      letter-spacing: 1.5px;
       color: #d8839d;
       font-weight: 700;
       margin-bottom: 12px;
-      text-transform: uppercase;
-      user-select: none;
     }
 
     .title-selector {
       display: inline-flex;
-      justify-content: center;
-      align-items: center;
       background: #fff0f3;
       border: 1px solid #ffd6e0;
       border-radius: 30px;
-      padding: 4px;
-      margin-bottom: 12px;
-      user-select: none;
+      padding: 3px;
+      margin-bottom: 10px;
     }
-    
+
     .title-btn {
       background: transparent;
       border: none;
       padding: 6px 16px;
-      border-radius: 25px;
-      font-size: 13.5px;
-      font-family: 'Mali', cursive, sans-serif;
+      border-radius: 20px;
+      font-size: 13px;
+      font-family: 'Mali', sans-serif;
       font-weight: 700;
       color: #ff6584;
       cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 4px;
     }
 
     .title-btn.active {
       background: #ff5c7c;
       color: #ffffff;
-      box-shadow: 0 3px 10px rgba(255, 92, 124, 0.35);
+      box-shadow: 0 3px 8px rgba(255, 92, 124, 0.3);
     }
 
     .heart-icon {
       color: #ff4d6d;
       font-size: 18px;
       margin: 4px 0;
-      user-select: none;
     }
 
-    h2 { 
-      color: #e63956; 
-      margin-bottom: 8px; 
-      font-size: 20px; 
-      line-height: 1.5; 
+    h2 {
+      color: #e63956;
+      margin-bottom: 6px;
+      font-size: 19px;
+      line-height: 1.4;
       font-weight: 700;
-      user-select: none;
     }
 
-    p.sub-greeting { 
-      color: #7a7a7a; 
-      font-size: 13px; 
-      margin-bottom: 18px; 
-      line-height: 1.6; 
-      user-select: none;
+    p.sub-greeting {
+      color: #7a7a7a;
+      font-size: 12.5px;
+      margin-bottom: 16px;
+      line-height: 1.5;
     }
 
-    .mood-list { 
-      display: flex; 
-      flex-direction: column; 
-      gap: 10px; 
-      width: 100%; 
+    .mood-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      width: 100%;
     }
-    
-    .mood-card { 
+
+    .mood-card {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #ffffff; 
-      border: 1.5px solid #ffe5ec; 
-      border-radius: 18px; 
-      padding: 10px 14px; 
-      font-size: 13.5px; 
-      font-weight: 600; 
-      font-family: 'Mali', cursive, sans-serif; 
-      cursor: pointer; 
-      transition: all 0.2s ease; 
-      box-shadow: 0 2px 8px rgba(255, 182, 193, 0.08); 
+      background: #ffffff;
+      border: 1.5px solid #ffe5ec;
+      border-radius: 16px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Mali', sans-serif;
+      cursor: pointer;
       color: #4a4a4a;
       text-align: left;
       width: 100%;
-      user-select: none;
       touch-action: manipulation;
     }
 
-    .mood-card:active { 
-      transform: scale(0.98);
+    .mood-card:active {
       background: #fff0f3;
+      transform: scale(0.98);
     }
 
     .mood-left {
@@ -167,13 +153,13 @@
     }
 
     .icon-badge {
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 15px;
+      font-size: 14px;
       flex-shrink: 0;
     }
 
@@ -185,7 +171,7 @@
 
     .arrow-icon {
       color: #d0c8cf;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       pointer-events: none;
     }
@@ -194,115 +180,91 @@
       border: none;
       border-top: 1.5px dashed #ffd6e0;
       width: 100%;
-      margin: 18px 0 14px 0;
-    }
-
-    .fortune-section {
-      width: 100%;
+      margin: 16px 0 12px 0;
     }
 
     .btn-fortune {
       background: #e8f8fa;
       border: 1.5px solid #b8ecef;
       color: #0077b6;
-      border-radius: 18px;
-      padding: 12px 16px;
+      border-radius: 16px;
+      padding: 12px 14px;
       width: 100%;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 700;
-      font-family: 'Mali', cursive, sans-serif;
+      font-family: 'Mali', sans-serif;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 8px rgba(184, 236, 239, 0.3);
-      user-select: none;
       touch-action: manipulation;
     }
 
-    .btn-fortune:active { 
+    .btn-fortune:active {
       transform: scale(0.98);
     }
 
     .fortune-box {
-      margin-top: 12px;
-      font-size: 13.5px;
+      margin-top: 10px;
+      font-size: 13px;
       font-weight: 600;
       color: #0077b6;
       background: #e8f8fa;
       border: 1.5px solid #b8ecef;
-      padding: 14px 16px;
-      border-radius: 18px;
-      line-height: 1.65;
+      padding: 12px 14px;
+      border-radius: 16px;
+      line-height: 1.6;
       display: none;
       text-align: center;
       width: 100%;
     }
 
-    .btn-back { 
-      background: #ff758f; 
-      color: white; 
-      border: none; 
-      padding: 12px 24px; 
-      border-radius: 50px; 
-      font-size: 14px; 
-      font-weight: 700; 
-      font-family: 'Mali', cursive, sans-serif; 
-      cursor: pointer; 
-      margin-top: 20px; 
-      width: 100%; 
+    .btn-back {
+      background: #ff758f;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-size: 13.5px;
+      font-weight: 700;
+      font-family: 'Mali', sans-serif;
+      cursor: pointer;
+      margin-top: 18px;
+      width: 100%;
       box-shadow: 0 4px 12px rgba(255, 117, 143, 0.3);
-      user-select: none;
       touch-action: manipulation;
     }
 
-    #message-box { 
-      margin-top: 16px; 
-      font-size: 14.5px; 
-      font-weight: 600; 
-      color: #c9184a; 
-      background: #fff0f3; 
+    #message-box {
+      margin-top: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #c9184a;
+      background: #fff0f3;
       border: 1.5px solid #ffd6e0;
-      padding: 20px 16px; 
-      border-radius: 20px; 
-      line-height: 1.7; 
-      min-height: 90px; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
+      padding: 18px 14px;
+      border-radius: 18px;
+      line-height: 1.6;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
       width: 100%;
-    }
-
-    .floating-heart {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      color: #ff4d6d;
-      font-size: 20px;
-      user-select: none;
-      animation: floatUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-    }
-
-    @keyframes floatUp {
-      0% { opacity: 1; transform: translate(0, 0) scale(0.6) rotate(0deg); }
-      50% { opacity: 0.8; }
-      100% { opacity: 0; transform: translate(var(--translateX), -90px) scale(1.4) rotate(var(--rotate)); }
     }
   </style>
 </head>
 <body>
 
-  <button class="bgm-control" id="bgmBtn">🎵 เสียงเพลง: ปิดอยู่ ♡</button>
+  <button class="bgm-control" id="bgmBtn" onclick="toggleBGM()">🎵 เสียงเพลง: ปิดอยู่ ♡</button>
 
   <div id="screen-select" class="card">
-    <div class="brand-tag">Maid Healing Care • ♡</div>
+    <div class="brand-tag">MAID HEALING CARE • ♡</div>
 
     <div class="title-selector">
-      <button id="btn-master" class="title-btn" type="button">👑 นายท่าน</button>
-      <button id="btn-miss" class="title-btn active" type="button">🎀 คุณหนู</button>
+      <button id="btn-master" class="title-btn" onclick="setTitle('นายท่าน')">👑 นายท่าน</button>
+      <button id="btn-miss" class="title-btn active" onclick="setTitle('คุณหนู')">🎀 คุณหนู</button>
     </div>
 
     <div class="heart-icon">💖</div>
@@ -311,7 +273,7 @@
     <p id="time-greeting" class="sub-greeting">ดึกแล้วน้า... ทำไมยังไม่นอนอีกคะ เป็นห่วงจัง 🌙♡</p>
 
     <div class="mood-list">
-      <button class="mood-card" type="button" data-mood="happy">
+      <button class="mood-card" type="button" onclick="selectMood('happy')">
         <div class="mood-left">
           <div class="icon-badge bg-pink">✨</div>
           <span>อารมณ์ดี มีเรื่องน่ารักเกิดขึ้น ✨</span>
@@ -319,7 +281,7 @@
         <span class="arrow-icon">›</span>
       </button>
 
-      <button class="mood-card" type="button" data-mood="tired">
+      <button class="mood-card" type="button" onclick="selectMood('tired')">
         <div class="mood-left">
           <div class="icon-badge bg-brown">☕</div>
           <span>เหนื่อยจังเลย... อยากพักแล้ว ☕</span>
@@ -327,7 +289,7 @@
         <span class="arrow-icon">›</span>
       </button>
 
-      <button class="mood-card" type="button" data-mood="lonely">
+      <button class="mood-card" type="button" onclick="selectMood('lonely')">
         <div class="mood-left">
           <div class="icon-badge bg-purple">💜</div>
           <span>รู้สึกเหงาๆ อยากให้น้องเมดอยู่ด้วย ♡</span>
@@ -335,7 +297,7 @@
         <span class="arrow-icon">›</span>
       </button>
 
-      <button class="mood-card" type="button" data-mood="angry">
+      <button class="mood-card" type="button" onclick="selectMood('angry')">
         <div class="mood-left">
           <div class="icon-badge bg-orange">💨</div>
           <span>เจอเรื่องหงุดหงิด อารมณ์เสียสุดๆ 💭</span>
@@ -343,7 +305,7 @@
         <span class="arrow-icon">›</span>
       </button>
 
-      <button class="mood-card" type="button" data-mood="sad">
+      <button class="mood-card" type="button" onclick="selectMood('sad')">
         <div class="mood-left">
           <div class="icon-badge bg-blue">🥺</div>
           <span>เหนื่อยใจจัง... ขอกอดหน่อยได้ไหม 🥺</span>
@@ -354,40 +316,25 @@
 
     <hr class="divider">
 
-    <div class="fortune-section">
-      <button class="btn-fortune" id="fortuneBtn" type="button">
-        <span>🔮</span>
-        <span>การ์ดพลังใจประจำวัน ✨</span>
-      </button>
-      <div id="fortune-box" class="fortune-box"></div>
-    </div>
+    <button class="btn-fortune" type="button" onclick="drawFortune()">
+      <span>🔮</span>
+      <span>การ์ดพลังใจประจำวัน ✨</span>
+    </button>
+    <div id="fortune-box" class="fortune-box"></div>
   </div>
 
   <div id="screen-result" class="card" style="display: none;">
-    <div class="brand-tag">Maid Healing Care • ♡</div>
+    <div class="brand-tag">MAID HEALING CARE • ♡</div>
     <h2>น้องเมดอยากบอกว่า... ♡</h2>
     <div id="message-box">...</div>
-    <button class="btn-back" id="backBtn" type="button">↩ ย้อนกลับไปหน้าแรก ♡</button>
+    <button class="btn-back" type="button" onclick="goBack()">↩ ย้อนกลับไปหน้าแรก ♡</button>
   </div>
 
   <audio id="bgmMusic" src="bgm.mp3" loop></audio>
 
   <script>
-    const bgm = document.getElementById('bgmMusic');
-    if (bgm) bgm.volume = 0.15;
-
     let userTitle = 'คุณหนู';
-    let typingTimeout;
     let currentFortuneRaw = '';
-
-    const themeMap = {
-      default: { bg: '#fff0f5', border: '#ffe3eb' },
-      happy:   { bg: '#fff0f5', border: '#ffccd5' },
-      tired:   { bg: '#fbf8f3', border: '#e6d5c3' },
-      lonely:  { bg: '#f3f0f7', border: '#d5cbe5' },
-      angry:   { bg: '#fff5f0', border: '#ffd2c2' },
-      sad:     { bg: '#f4f3f8', border: '#d8d5e5' }
-    };
 
     const fortuneList = [
       "วันนี้ดวงด้านรอยยิ้มพุ่งสูง 100% จะมีเรื่องน่ารักๆ เกิดขึ้นแน่นอนค่ะ ✨",
@@ -402,7 +349,7 @@
         "เย้! วันนี้รอยยิ้มของ{TITLE}สดใสมากๆ เลยค่ะ น้องเมดเห็นแล้วพลอยมีความสุขไปด้วยเลย ✨",
         "มีเรื่องดีๆ เกิดขึ้นเหรอคะ? มาเล่าให้น้องเมดฟังหน่อยน้า อยากฟังจังเลยค่ะ ♡",
         "เห็น{TITLE}ยิ้มได้ น้องเมดก็มีพลังทำงานทั้งวันแล้วค่ะ! ลุยต่อเลยน้า ✨",
-        "ว้าว วันนี้โชคดีแน่ๆ เลยค่ะ! น้องเมดขอส่งความสุขเพิ่มให้อีกเยอะๆ เลยนะ ♡",
+        "ว้าว วันนี้โชคดีแน่ๆ เลยค่ะ! น้องเมดขอส่งความสุขเพิ่มใหีกเยอะๆ เลยนะ ♡",
         "อารมณ์ดีแบบนี้ น้องเมดชงชาร้อนๆ หอมๆ มานั่งทานเป็นเพื่อนนะค้า ✨"
       ],
       tired: [
@@ -412,4 +359,113 @@
         "จิบน้ำอุ่นๆ ก่อนน้า น้องเมดจะคอยนั่งอยู่ข้างๆ ไม่ไปไหนเลยค่ะ ♡",
         "วันนี้ผ่านไปได้ยอดเยี่ยมที่สุดแล้วค่ะ! {TITLE}ของน้องเมดเก่งที่สุดเลย ✨"
       ],
-      lonely:
+      lonely: [
+        "รู้สึกเหงาเหรอคะ? ไม่เป็นไรน้า... น้องเมดอยู่นี่แล้ว จะไม่ปล่อยให้{TITLE}อยู่คนเดียวแน่นอน ♡",
+        "คิดถึงน้องเมดใช่ไหมคะ? สารภาพมาซะดีๆ น้องเมดก็คิดถึง{TITLE}เหมือนกันนะ ✨",
+        "จับมือน้องเมดไว้นะคะ ไม่ว่าเมื่อไหร่น้องเมดก็จะอยู่ข้างๆ {TITLE}เสมอค่ะ ♡",
+        "ถ้าเหงาเมื่อไหร่ แวะมาหาน้องเมดได้ตลอดเลยน้า น้องเมดรออยู่ตรงนี้เสมอค่ะ ✨",
+        "จำไว้นะคะว่า{TITLE}ยังมีน้องเมดคอยเป็นกำลังใจให้อยู่ตรงนี้เสมอเลย ♡"
+      ],
+      angry: [
+        "ใครทำให้{TITLE}อารมณ์เสียกันคะ! ใจเย็นๆ ก่อนน้า น้องเมดจะคอยเป่าความโกรธให้เอง ✨",
+        "สูดหายใจเข้าลึกๆ นะคะ... ลองมองหน้าน้องเมดแล้วค่อยๆ ผ่อนคลายน้า ♡",
+        "อย่าเพิ่งหงุดหงิดไปเลยน้า เสียสุขภาพเปล่าๆ มาทานขนมอุ่นๆ กับน้องเมดดีกว่าค่ะ ☕",
+        "น้องเมดเข้าใจนะคะว่าน่าโมโหมากๆ แต่{TITLE}ยังมีน้องเมดอยู่ทีมเดียวกันน้า ✨",
+        "โยนเรื่องแย่ๆ ทิ้งไปให้หมดเลยค่ะ! น้องเมดจะช่วยฮีลหัวใจ{TITLE}เอง ♡"
+      ],
+      sad: [
+        "อย่าแอบร้องไห้คนเดียวนะคะ... มาให้น้องเมดกอดแน่นๆ ทีหนึ่งนะ ไม่เป็นไรแล้วค่ะ ♡",
+        "ถ้าเหนื่อยใจจะร้องไห้ออกมาก็ได้น้า น้องเมดจะคอยซับน้ำตาให้เองค่ะ ✨",
+        "วันนี้อาจจะใจร้ายไปหน่อย แต่พรุ่งนี้ต้องเป็นวันที่สดใสแน่นอนค่ะ น้องเมดเชื่อแบบนั้นนะ ♡",
+        "ไม่ว่าเกิดอะไรขึ้น น้องเมดจะไม่มีวันทิ้ง{TITLE}ไปไหนแน่นอนค่ะ ✨",
+        "พักผ่อนเอาแรงก่อนน้า... กอดอุ่นๆ จากน้องเมดพร้อมส่งให้อยู่เสมอค่ะ ♡"
+      ]
+    };
+
+    function playBeep() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+        gain.gain.setValueAtTime(0.04, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.12);
+      } catch (e) {}
+    }
+
+    function setTitle(title) {
+      playBeep();
+      userTitle = title;
+      document.getElementById('btn-master').className = 'title-btn ' + (title === 'นายท่าน' ? 'active' : '');
+      document.getElementById('btn-miss').className = 'title-btn ' + (title === 'คุณหนู' ? 'active' : '');
+      document.getElementById('main-title').innerHTML = 'ยินดีต้อนรับกลับบ้านค่ะ<br>' + userTitle + ' ♡';
+      updateGreeting();
+      if (currentFortuneRaw) {
+        document.getElementById('fortune-box').innerText = '🔮 การ์ดพลังใจวันนี้\n"' + currentFortuneRaw.replace(/{TITLE}/g, userTitle) + '" ✨';
+      }
+    }
+
+    function updateGreeting() {
+      const h = new Date().getHours();
+      const el = document.getElementById('time-greeting');
+      if (h >= 5 && h < 11) el.innerText = 'อรุณสวัสดิ์ค่ะ ' + userTitle + '! รับกาแฟหรือชาร้อนดีคะ ☕✨';
+      else if (h >= 11 && h < 17) el.innerText = 'อย่าลืมหาอะไรอร่อยๆ ทานช่วงบ่ายนะคะ ' + userTitle + ' ♡';
+      else if (h >= 17 && h < 22) el.innerText = 'เหนื่อยมาทั้งวันเลยน้า... วันนี้รู้สึกยังไงบ้างคะ ' + userTitle + ' ✨';
+      else el.innerText = 'ดึกแล้วน้า... ทำไมยังไม่นอนอีกคะ เป็นห่วงจัง ' + userTitle + ' 🌙♡';
+    }
+
+    function drawFortune() {
+      playBeep();
+      const box = document.getElementById('fortune-box');
+      box.style.display = 'block';
+      const r = Math.floor(Math.random() * fortuneList.length);
+      currentFortuneRaw = fortuneList[r];
+      box.innerText = '🔮 การ์ดพลังใจวันนี้\n"' + currentFortuneRaw.replace(/{TITLE}/g, userTitle) + '" ✨';
+    }
+
+    function selectMood(key) {
+      playBeep();
+      const bgm = document.getElementById('bgmMusic');
+      if (bgm && bgm.paused) {
+        bgm.play().then(() => {
+          document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: เปิดอยู่ ♡';
+        }).catch(() => {});
+      }
+      const list = moodData[key] || moodData.happy;
+      const text = list[Math.floor(Math.random() * list.length)].replace(/{TITLE}/g, userTitle);
+      document.getElementById('screen-select').style.display = 'none';
+      document.getElementById('screen-result').style.display = 'block';
+      document.getElementById('message-box').innerText = text;
+    }
+
+    function goBack() {
+      playBeep();
+      document.getElementById('screen-result').style.display = 'none';
+      document.getElementById('screen-select').style.display = 'block';
+    }
+
+    function toggleBGM() {
+      playBeep();
+      const bgm = document.getElementById('bgmMusic');
+      if (!bgm) return;
+      if (bgm.paused) {
+        bgm.play().then(() => {
+          document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: เปิดอยู่ ♡';
+        }).catch(() => {});
+      } else {
+        bgm.pause();
+        document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่ ♡';
+      }
+    }
+
+    updateGreeting();
+  </script>
+</body>
+</html>
