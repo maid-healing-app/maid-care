@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Maid Healing Care</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,6 +13,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body { 
@@ -24,10 +25,8 @@
       justify-content: center; 
       align-items: center; 
       min-height: 100vh; 
-      position: relative; 
-      overflow-x: hidden;
       color: #4a4a4a;
-      transition: background-color 0.5s ease;
+      transition: background-color 0.4s ease;
     }
     
     .bgm-control { 
@@ -44,21 +43,19 @@
       cursor: pointer; 
       color: #ff4d6d; 
       box-shadow: 0 2px 8px rgba(255, 182, 193, 0.2); 
-      z-index: 10;
+      z-index: 100;
+      user-select: none;
     }
 
     .card { 
       background: #ffffff; 
       border-radius: 28px; 
-      padding: 28px 20px; 
+      padding: 24px 18px; 
       box-shadow: 0 10px 30px rgba(255, 182, 193, 0.2); 
       max-width: 360px; 
       width: 100%; 
       border: 2px solid #ffe3eb; 
-      transition: border-color 0.5s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      transition: border-color 0.4s ease;
     }
 
     .brand-tag {
@@ -66,8 +63,9 @@
       letter-spacing: 2px;
       color: #d8839d;
       font-weight: 700;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       text-transform: uppercase;
+      user-select: none;
     }
 
     .title-selector {
@@ -79,6 +77,7 @@
       border-radius: 30px;
       padding: 4px;
       margin-bottom: 12px;
+      user-select: none;
     }
     
     .title-btn {
@@ -91,7 +90,7 @@
       font-weight: 700;
       color: #ff6584;
       cursor: pointer;
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
       display: flex;
       align-items: center;
       gap: 4px;
@@ -107,29 +106,30 @@
       color: #ff4d6d;
       font-size: 18px;
       margin: 4px 0;
+      user-select: none;
     }
 
     h2 { 
       color: #e63956; 
       margin-bottom: 8px; 
-      font-size: 21px; 
+      font-size: 20px; 
       line-height: 1.5; 
       font-weight: 700;
-      width: 100%; 
+      user-select: none;
     }
 
     p.sub-greeting { 
       color: #7a7a7a; 
-      font-size: 13.5px; 
-      margin-bottom: 22px; 
+      font-size: 13px; 
+      margin-bottom: 18px; 
       line-height: 1.6; 
-      width: 100%; 
+      user-select: none;
     }
 
     .mood-list { 
       display: flex; 
       flex-direction: column; 
-      gap: 11px; 
+      gap: 10px; 
       width: 100%; 
     }
     
@@ -150,29 +150,30 @@
       color: #4a4a4a;
       text-align: left;
       width: 100%;
+      user-select: none;
+      touch-action: manipulation;
     }
 
-    .mood-card:hover { 
-      background: #ffffff;
-      border-color: #ffb3c1; 
-      transform: translateY(-2px); 
-      box-shadow: 0 4px 14px rgba(255, 182, 193, 0.22);
+    .mood-card:active { 
+      transform: scale(0.98);
+      background: #fff0f3;
     }
 
     .mood-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      pointer-events: none;
     }
 
     .icon-badge {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 15px;
       flex-shrink: 0;
     }
 
@@ -186,13 +187,14 @@
       color: #d0c8cf;
       font-size: 16px;
       font-weight: 700;
+      pointer-events: none;
     }
 
     .divider {
       border: none;
       border-top: 1.5px dashed #ffd6e0;
       width: 100%;
-      margin: 20px 0 16px 0;
+      margin: 18px 0 14px 0;
     }
 
     .fortune-section {
@@ -216,11 +218,12 @@
       gap: 8px;
       transition: all 0.2s ease;
       box-shadow: 0 2px 8px rgba(184, 236, 239, 0.3);
+      user-select: none;
+      touch-action: manipulation;
     }
 
-    .btn-fortune:hover { 
-      background: #d8f3f6; 
-      transform: translateY(-1px);
+    .btn-fortune:active { 
+      transform: scale(0.98);
     }
 
     .fortune-box {
@@ -248,21 +251,21 @@
       font-weight: 700; 
       font-family: 'Mali', cursive, sans-serif; 
       cursor: pointer; 
-      margin-top: 22px; 
+      margin-top: 20px; 
       width: 100%; 
       box-shadow: 0 4px 12px rgba(255, 117, 143, 0.3);
-      transition: all 0.2s ease;
+      user-select: none;
+      touch-action: manipulation;
     }
-    .btn-back:hover { background: #ff4d6d; transform: translateY(-1px); }
-    
+
     #message-box { 
       margin-top: 16px; 
-      font-size: 15px; 
+      font-size: 14.5px; 
       font-weight: 600; 
       color: #c9184a; 
       background: #fff0f3; 
       border: 1.5px solid #ffd6e0;
-      padding: 22px 18px; 
+      padding: 20px 16px; 
       border-radius: 20px; 
       line-height: 1.7; 
       min-height: 90px; 
@@ -292,14 +295,14 @@
 </head>
 <body>
 
-  <button class="bgm-control" onclick="toggleBGM()" id="bgmBtn">🎵 เสียงเพลง: ปิดอยู่ ♡</button>
+  <button class="bgm-control" id="bgmBtn">🎵 เสียงเพลง: ปิดอยู่ ♡</button>
 
   <div id="screen-select" class="card">
     <div class="brand-tag">Maid Healing Care • ♡</div>
 
     <div class="title-selector">
-      <button id="btn-master" class="title-btn" onclick="setTitle('นายท่าน')">👑 นายท่าน</button>
-      <button id="btn-miss" class="title-btn active" onclick="setTitle('คุณหนู')">🎀 คุณหนู</button>
+      <button id="btn-master" class="title-btn" type="button">👑 นายท่าน</button>
+      <button id="btn-miss" class="title-btn active" type="button">🎀 คุณหนู</button>
     </div>
 
     <div class="heart-icon">💖</div>
@@ -308,7 +311,7 @@
     <p id="time-greeting" class="sub-greeting">ดึกแล้วน้า... ทำไมยังไม่นอนอีกคะ เป็นห่วงจัง 🌙♡</p>
 
     <div class="mood-list">
-      <button class="mood-card" onclick="selectMood('happy', event)">
+      <button class="mood-card" type="button" data-mood="happy">
         <div class="mood-left">
           <div class="icon-badge bg-pink">✨</div>
           <span>อารมณ์ดี มีเรื่องน่ารักเกิดขึ้น ✨</span>
@@ -316,7 +319,7 @@
         <span class="arrow-icon">›</span>
       </button>
 
-      <button class="mood-card" onclick="selectMood('tired', event)">
+      <button class="mood-card" type="button" data-mood="tired">
         <div class="mood-left">
           <div class="icon-badge bg-brown">☕</div>
           <span>เหนื่อยจังเลย... อยากพักแล้ว ☕</span>
@@ -324,7 +327,7 @@
         <span class="arrow-icon">›</span>
       </button>
 
-      <button class="mood-card" onclick="selectMood('lonely', event)">
+      <button class="mood-card" type="button" data-mood="lonely">
         <div class="mood-left">
           <div class="icon-badge bg-purple">💜</div>
           <span>รู้สึกเหงาๆ อยากให้น้องเมดอยู่ด้วย ♡</span>
@@ -332,6 +335,81 @@
         <span class="arrow-icon">›</span>
       </button>
 
-      <button class="mood-card" onclick="selectMood('angry', event)">
+      <button class="mood-card" type="button" data-mood="angry">
         <div class="mood-left">
-          <div class="
+          <div class="icon-badge bg-orange">💨</div>
+          <span>เจอเรื่องหงุดหงิด อารมณ์เสียสุดๆ 💭</span>
+        </div>
+        <span class="arrow-icon">›</span>
+      </button>
+
+      <button class="mood-card" type="button" data-mood="sad">
+        <div class="mood-left">
+          <div class="icon-badge bg-blue">🥺</div>
+          <span>เหนื่อยใจจัง... ขอกอดหน่อยได้ไหม 🥺</span>
+        </div>
+        <span class="arrow-icon">›</span>
+      </button>
+    </div>
+
+    <hr class="divider">
+
+    <div class="fortune-section">
+      <button class="btn-fortune" id="fortuneBtn" type="button">
+        <span>🔮</span>
+        <span>การ์ดพลังใจประจำวัน ✨</span>
+      </button>
+      <div id="fortune-box" class="fortune-box"></div>
+    </div>
+  </div>
+
+  <div id="screen-result" class="card" style="display: none;">
+    <div class="brand-tag">Maid Healing Care • ♡</div>
+    <h2>น้องเมดอยากบอกว่า... ♡</h2>
+    <div id="message-box">...</div>
+    <button class="btn-back" id="backBtn" type="button">↩ ย้อนกลับไปหน้าแรก ♡</button>
+  </div>
+
+  <audio id="bgmMusic" src="bgm.mp3" loop></audio>
+
+  <script>
+    const bgm = document.getElementById('bgmMusic');
+    if (bgm) bgm.volume = 0.15;
+
+    let userTitle = 'คุณหนู';
+    let typingTimeout;
+    let currentFortuneRaw = '';
+
+    const themeMap = {
+      default: { bg: '#fff0f5', border: '#ffe3eb' },
+      happy:   { bg: '#fff0f5', border: '#ffccd5' },
+      tired:   { bg: '#fbf8f3', border: '#e6d5c3' },
+      lonely:  { bg: '#f3f0f7', border: '#d5cbe5' },
+      angry:   { bg: '#fff5f0', border: '#ffd2c2' },
+      sad:     { bg: '#f4f3f8', border: '#d8d5e5' }
+    };
+
+    const fortuneList = [
+      "วันนี้ดวงด้านรอยยิ้มพุ่งสูง 100% จะมีเรื่องน่ารักๆ เกิดขึ้นแน่นอนค่ะ ✨",
+      "พลังความตั้งใจของ{TITLE}วันนี้เต็มเปี่ยม ทำอะไรก็ราบรื่นแน่นอนค่ะ! 🌟",
+      "วันนี้มีดวงได้ทานของอร่อยๆ ฮีลใจ อย่าลืมให้รางวัลตัวเองน้า 🍨♡",
+      "ความเหนื่อยล้าของวันนี้จะแพ้พ่ายให้กับความเก่งของ{TITLE}ค่ะ! 💪✨",
+      "วันนี้คือวันที่สดใส และน้องเมดจะคอยส่งกำลังใจให้อยู่ตรงนี้นะคะ 💖"
+    ];
+
+    const moodData = {
+      happy: [
+        "เย้! วันนี้รอยยิ้มของ{TITLE}สดใสมากๆ เลยค่ะ น้องเมดเห็นแล้วพลอยมีความสุขไปด้วยเลย ✨",
+        "มีเรื่องดีๆ เกิดขึ้นเหรอคะ? มาเล่าให้น้องเมดฟังหน่อยน้า อยากฟังจังเลยค่ะ ♡",
+        "เห็น{TITLE}ยิ้มได้ น้องเมดก็มีพลังทำงานทั้งวันแล้วค่ะ! ลุยต่อเลยน้า ✨",
+        "ว้าว วันนี้โชคดีแน่ๆ เลยค่ะ! น้องเมดขอส่งความสุขเพิ่มให้อีกเยอะๆ เลยนะ ♡",
+        "อารมณ์ดีแบบนี้ น้องเมดชงชาร้อนๆ หอมๆ มานั่งทานเป็นเพื่อนนะค้า ✨"
+      ],
+      tired: [
+        "ทิ้งความเหนื่อยไว้ข้างนอก แล้วนั่งพักตรงนี้นะคะ... เดี๋ยวน้องเมดช่วยนวดไหล่ให้นะ ☕",
+        "วันนี้ทำงานหนักมากเลยใช่ไหมคะ? เก่งมากๆ แล้วน้า พักสายตาสักหน่อยนะคะ ♡",
+        "พักผ่อนให้เต็มที่เลยนะคะ{TITLE} น้องเมดเตรียมที่นอนนุ่มๆ ไว้รอแล้วค่ะ ✨",
+        "จิบน้ำอุ่นๆ ก่อนน้า น้องเมดจะคอยนั่งอยู่ข้างๆ ไม่ไปไหนเลยค่ะ ♡",
+        "วันนี้ผ่านไปได้ยอดเยี่ยมที่สุดแล้วค่ะ! {TITLE}ของน้องเมดเก่งที่สุดเลย ✨"
+      ],
+      lonely:
