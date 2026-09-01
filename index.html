@@ -57,6 +57,11 @@
       margin: auto;
       height: auto;
       overflow: visible;
+      display: none; /* ซ่อนทุกหน้าไว้ก่อน แล้วใช้ JS เปิดหน้าแรก */
+    }
+
+    .active-card {
+      display: block;
     }
 
     .brand-tag {
@@ -94,12 +99,6 @@
       box-shadow: 0 3px 8px rgba(255, 92, 124, 0.3);
     }
 
-    .heart-icon {
-      color: #ff4d6d;
-      font-size: 18px;
-      margin: 4px 0;
-    }
-
     h2 {
       color: #e63956;
       margin-bottom: 6px;
@@ -110,9 +109,10 @@
 
     p.sub-greeting {
       color: #7a7a7a;
-      font-size: 12.5px;
-      margin-bottom: 16px;
+      font-size: 14px;
+      margin: 16px 0;
       line-height: 1.5;
+      font-weight: 600;
     }
 
     .mood-list {
@@ -120,6 +120,7 @@
       flex-direction: column;
       gap: 9px;
       width: 100%;
+      margin-top: 10px;
     }
 
     .mood-card {
@@ -205,6 +206,13 @@
       transform: scale(0.98);
     }
 
+    .btn-fortune.disabled {
+      background: #f0f0f0;
+      border-color: #d9d9d9;
+      color: #a0a0a0;
+      cursor: not-allowed;
+    }
+
     .fortune-box {
       margin-top: 10px;
       font-size: 13px;
@@ -220,7 +228,7 @@
       width: 100%;
     }
 
-    .btn-back {
+    .btn-main {
       background: #ff758f;
       color: white;
       border: none;
@@ -234,6 +242,10 @@
       width: 100%;
       box-shadow: 0 4px 12px rgba(255, 117, 143, 0.3);
       touch-action: manipulation;
+    }
+    
+    .btn-main:active {
+      transform: scale(0.98);
     }
 
     #message-box {
@@ -253,13 +265,23 @@
       text-align: center;
       width: 100%;
     }
+
+    .maid-img {
+      width: 100%;
+      border-radius: 16px;
+      margin-top: 10px;
+      border: 2px solid #ffe3eb;
+      object-fit: cover;
+      display: none;
+    }
   </style>
 </head>
 <body>
 
   <button class="bgm-control" id="bgmBtn" onclick="toggleBGM()">🎵 เสียงเพลง: ปิดอยู่♡</button>
 
-  <div id="screen-select" class="card">
+  <!-- หน้าแรก: ยินดีต้อนรับ -->
+  <div id="screen-welcome" class="card active-card">
     <div class="brand-tag">MAID HEALING CARE • ♡</div>
 
     <div class="title-selector">
@@ -268,7 +290,24 @@
     </div>
 
     <h2 id="main-title">ยินดีต้อนรับกลับบ้านค่ะ<br>คุณหนู♡</h2>
-    <p id="time-greeting" class="sub-greeting">ดึกแล้วน้า...ทำไมยังไม่นอนอีกคะ เป็นห่วงจัง♡</p>
+    <img src="https://placehold.co/300x200/ffb6c1/ffffff?text=Welcome+Maid" alt="Maid Welcome" class="maid-img" style="display: block;">
+    
+    <button class="btn-main" type="button" onclick="goToGreeting()">เริ่มคุยกับน้องเมด ✨</button>
+  </div>
+
+  <!-- หน้า 2: ทักทายตามเวลา -->
+  <div id="screen-greeting" class="card">
+    <div class="brand-tag">MAID HEALING CARE • ♡</div>
+    <h2 style="font-size: 17px;">น้องเมดมีอะไรจะบอกค่ะ...</h2>
+    <p id="time-greeting" class="sub-greeting">กำลังโหลดข้อความ...</p>
+    <img id="time-greeting-img" src="" alt="Maid Greeting" class="maid-img" style="display: block;">
+    <button class="btn-main" type="button" onclick="goToMood()">บอกอารมณ์ของวันนี้ ♡</button>
+  </div>
+
+  <!-- หน้า 3: เลือกอารมณ์และการ์ดพลังใจ -->
+  <div id="screen-select" class="card">
+    <div class="brand-tag">MAID HEALING CARE • ♡</div>
+    <h2>วันนี้รู้สึกยังไงบ้างคะ?</h2>
 
     <div class="mood-list">
       <button class="mood-card" type="button" onclick="selectMood('happy')">
@@ -314,25 +353,27 @@
 
     <hr class="divider">
 
-    <button class="btn-fortune" type="button" onclick="drawFortune()">
-      <span>🔮การ์ดพลังใจประจำวัน✨</span>
+    <button id="btn-fortune-draw" class="btn-fortune" type="button" onclick="drawFortune()">
+      <span id="fortune-btn-text">🔮สุ่มการ์ดพลังใจประจำวัน✨</span>
     </button>
     <div id="fortune-box" class="fortune-box"></div>
   </div>
 
-  <div id="screen-result" class="card" style="display: none;">
+  <!-- หน้า 4: ผลลัพธ์อารมณ์ (รูป + ข้อความ) -->
+  <div id="screen-result" class="card">
     <div class="brand-tag">MAID HEALING CARE • ♡</div>
     <h2>น้องเมดอยากบอกว่า...♡</h2>
+    <img id="maid-result-img" src="" alt="Maid Reaction" class="maid-img">
     <div id="message-box">...</div>
-    <button class="btn-back" type="button" onclick="goBack()">↩ ย้อนกลับไปหน้าแรก♡</button>
+    <button class="btn-main" type="button" onclick="goToMood()">↩ ย้อนกลับไปหน้าเลือกอารมณ์♡</button>
   </div>
 
   <audio id="bgmMusic" src="bgm.mp3" loop></audio>
 
   <script>
     let userTitle = 'คุณหนู';
-    let currentFortuneRaw = '';
 
+    // รายการการ์ดพลังใจ
     const fortuneList = [
       "วันนี้ดวงด้านรอยยิ้มพุ่งสูง 100% จะมีเรื่องน่ารัก ๆ เกิดขึ้นแน่นอนค่ะ✨",
       "พลังความตั้งใจของ{TITLE}วันนี้เต็มเปี่ยม ทำอะไรก็ราบรื่นแน่นอนค่ะ!🌟",
@@ -341,41 +382,42 @@
       "วันนี้คือวันที่สดใส และน้องเมดจะคอยส่งกำลังใจให้อยู่ตรงนี้นะคะ💖"
     ];
 
+    // ข้อมูลคำพูดอารมณ์ + ลิงก์รูปภาพ (สามารถเปลี่ยน URL รูปเป็นรูปน้องเมดของจริงได้เลย)
     const moodData = {
       happy: [
-        "เย้! วันนี้รอยยิ้มของ{TITLE}สดใสมาก ๆ เลยค่ะ น้องเมดเห็นแล้วมีความสุขไปด้วยเลย✨",
-        "มีเรื่องดี ๆ เกิดขึ้นเหรอคะ? มาเล่าให้น้องเมดฟังหน่อยน้า อยากฟังจังเลยค่ะ ♡",
-        "เห็น{TITLE}ยิ้มได้ น้องเมดก็มีพลังทำงานทั้งวันแล้วค่ะ! ลุยต่อเลยน้าฮึบ ๆ✨",
-        "ว้าว วันนี้โชคดีแน่ ๆ เลยค่ะ! น้องเมดขอส่งความสุขเพิ่มให้เยอะ ๆ เลยนะ♡",
-        "ยะหู้ว! ขอให้โลกของ{TITLE}สดใสแบบในทุก ๆ วันไปเลยยย!!!"
+        { text: "เย้! วันนี้รอยยิ้มของ{TITLE}สดใสมาก ๆ เลยค่ะ น้องเมดเห็นแล้วมีความสุขไปด้วยเลย✨", img: "happy_4" },
+        { text: "มีเรื่องดี ๆ เกิดขึ้นเหรอคะ? มาเล่าให้น้องเมดฟังหน่อยน้า อยากฟังจังเลยค่ะ ♡", img: "happy_4" },
+        { text: "เห็น{TITLE}ยิ้มได้ น้องเมดก็มีพลังทำงานทั้งวันแล้วค่ะ! ลุยต่อเลยน้าฮึบ ๆ✨", img: "happy_4" },
+        { text: "ว้าว วันนี้โชคดีแน่ ๆ เลยค่ะ! น้องเมดขอส่งความสุขเพิ่มให้เยอะ ๆ เลยนะ♡", img: "happy_4" },
+        { text: "ยะหู้ว! ขอให้โลกของ{TITLE}สดใสแบบในทุก ๆ วันไปเลยยย!!!", img: "happy_4" }
       ],
       tired: [
-        "ทิ้งความเหนื่อยไว้ข้างนอก แล้วนั่งพักตรงนี้นะคะ... เดี๋ยวน้องเมดช่วยนวดไหล่ให้นะ ☕",
-        "วันนี้ทำงานหนักมากเลยใช่ไหมคะ? เก่งมากๆ แล้วน้า พักสายตาสักหน่อยนะคะ ♡",
-        "พักผ่อนให้เต็มที่เลยนะคะ{TITLE} น้องเมดเตรียมที่นอนนุ่มๆ ไว้รอแล้วค่ะ ✨",
-        "จิบน้ำอุ่นๆ ก่อนน้า น้องเมดจะคอยนั่งอยู่ข้างๆ ไม่ไปไหนเลยค่ะ ♡",
-        "วันนี้ผ่านไปได้ยอดเยี่ยมที่สุดแล้วค่ะ! {TITLE}ของน้องเมดเก่งที่สุดเลย ✨"
+        { text: "ทิ้งความเหนื่อยไว้ข้างนอก แล้วนั่งพักตรงนี้นะคะ... เดี๋ยวน้องเมดช่วยนวดไหล่ให้นะ ☕", img: "smile_2" },
+        { text: "วันนี้ทำงานหนักมากเลยใช่ไหมคะ? เก่งมากๆ แล้วน้า พักสายตาสักหน่อยนะคะ ♡", img: "smile_1" },
+        { text: "พักผ่อนให้เต็มที่เลยนะคะ{TITLE} น้องเมดเตรียมที่นอนนุ่มๆ ไว้รอแล้วค่ะ ✨", img: "smile_2" },
+        { text: "จิบน้ำอุ่นๆ ก่อนน้า น้องเมดจะคอยนั่งอยู่ข้างๆ ไม่ไปไหนเลยค่ะ ♡", img: "smile_1" },
+        { text: "วันนี้ผ่านไปได้ยอดเยี่ยมที่สุดแล้วค่ะ! {TITLE}ของน้องเมดเก่งที่สุดเลย ✨", img: "smile_2" }
       ],
       lonely: [
-        "รู้สึกเหงาเหรอคะ? ไม่เป็นไรน้า...น้องเมดอยู่นี่แล้ว จะไม่ปล่อยให้{TITLE}อยู่คนเดียวแน่นอน♡",
-        "คิดถึงน้องเมดใช่ไหมคะ? น้องเมดก็คิดถึง{TITLE}เหมือนกันนะคะ✨",
-        "ไม่เป็นไรนะคะ ไม่ว่าเมื่อไหร่น้องเมดก็จะอยู่ข้าง ๆ {TITLE}เสมอค่ะ♡",
-        "ถ้าเหงาเมื่อไหร่ แวะมาหาน้องเมดได้ตลอดเลยน้า น้องเมดรออยู่ตรงนี้เสมอค่ะ✨",
-        "{TITLE}ยังมีน้องเมดคอยเป็นกำลังใจให้อยู่ตรงนี้เสมอเลย♡"
+        { text: "รู้สึกเหงาเหรอคะ? ไม่เป็นไรน้า...น้องเมดอยู่นี่แล้ว จะไม่ปล่อยให้{TITLE}อยู่คนเดียวแน่นอน♡", img: "happy_4" },
+        { text: "คิดถึงน้องเมดใช่ไหมคะ? น้องเมดก็คิดถึง{TITLE}เหมือนกันนะคะ✨", img: "happy_4" },
+        { text: "ไม่เป็นไรนะคะ ไม่ว่าเมื่อไหร่น้องเมดก็จะอยู่ข้าง ๆ {TITLE}เสมอค่ะ♡", img: "happy_4" },
+        { text: "ถ้าเหงาเมื่อไหร่ แวะมาหาน้องเมดได้ตลอดเลยน้า น้องเมดรออยู่ตรงนี้เสมอค่ะ✨", img: "happy_4" },
+        { text: "{TITLE}ยังมีน้องเมดคอยเป็นกำลังใจให้อยู่ตรงนี้เสมอเลย♡", img: "happy_4" }
       ],
       angry: [
-        "ใครทำให้{TITLE}อารมณ์เสียกันคะ! ใจเย็น ๆ ก่อนน้า น้องเมดจะคอยเป่าความโกรธให้เองค่ะ!",
-        "สูดหายใจเข้าลึก ๆ นะคะ...ลองมองหน้าน้องเมดแล้วค่อย ๆ ผ่อนคลายน้า♡",
-        "อย่าเพิ่งหงุดหงิดไปเลยน้า เสียสุขภาพเปล่า ๆ มาทานขนมอุ่นๆ กับน้องเมดดีกว่าค่ะ☕",
-        "น้องเมดเข้าใจนะคะว่าน่าโมโหมาก ๆ แต่{TITLE}ยังมีน้องเมดอยู่ด้วยน้า✨",
-        "โยนเรื่องแย่ ๆ ทิ้งไปให้หมดเลยค่ะ! น้องเมดจะช่วยฮีลหัวใจ{TITLE}เอง ♡"
+        { text: "ใครทำให้{TITLE}อารมณ์เสียกันคะ! ใจเย็น ๆ ก่อนน้า น้องเมดจะคอยเป่าความโกรธให้เองค่ะ!", img: "angry_1" },
+        { text: "สูดหายใจเข้าลึก ๆ นะคะ...ลองมองหน้าน้องเมดแล้วค่อย ๆ ผ่อนคลายน้า♡", img: "angry_1" },
+        { text: "อย่าเพิ่งหงุดหงิดไปเลยน้า เสียสุขภาพเปล่า ๆ มาทานขนมอุ่นๆ กับน้องเมดดีกว่าค่ะ☕", img: "angry_1" },
+        { text: "น้องเมดเข้าใจนะคะว่าน่าโมโหมาก ๆ แต่{TITLE}ยังมีน้องเมดอยู่ด้วยน้า✨", img: "angry_1" },
+        { text: "โยนเรื่องแย่ ๆ ทิ้งไปให้หมดเลยค่ะ! น้องเมดจะช่วยฮีลหัวใจ{TITLE}เอง ♡", img: "angry_1" }
       ],
       sad: [
-        "อย่าแอบร้องไห้คนเดียวนะคะ...มาให้น้องเมดกอดแน่น ๆ ทีหนึ่งนะ ไม่เป็นไรแล้วค่ะ ♡",
-        "ถ้าเหนื่อยใจจะร้องไห้ออกมาก็ได้น้า น้องเมดจะคอยซับน้ำตาให้เองค่ะ✨",
-        "วันนี้อาจจะใจร้ายไปหน่อย แต่พรุ่งนี้ต้องเป็นวันที่สดใสแน่นอนค่ะ น้องเมดเชื่อแบบนั้นนะ ♡",
-        "ไม่ว่าเกิดอะไรขึ้น น้องเมดจะไม่มีวันทิ้ง{TITLE}ไปไหนแน่นอนค่ะ✨",
-        "พักผ่อนเอาแรงก่อนน้า...กอดอุ่น ๆ จากน้องเมดพร้อมส่งให้อยู่เสมอค่ะ ♡"
+        { text: "อย่าแอบร้องไห้คนเดียวนะคะ...มาให้น้องเมดกอดแน่น ๆ ทีหนึ่งนะ ไม่เป็นไรแล้วค่ะ ♡", img: "sad_1" },
+        { text: "ถ้าเหนื่อยใจจะร้องไห้ออกมาก็ได้น้า น้องเมดจะคอยซับน้ำตาให้เองค่ะ✨", img: "sad_1" },
+        { text: "วันนี้อาจจะใจร้ายไปหน่อย แต่พรุ่งนี้ต้องเป็นวันที่สดใสแน่นอนค่ะ น้องเมดเชื่อแบบนั้นนะ ♡", img: "sad_1" },
+        { text: "ไม่ว่าเกิดอะไรขึ้น น้องเมดจะไม่มีวันทิ้ง{TITLE}ไปไหนแน่นอนค่ะ✨", img: "sad_1" },
+        { text: "พักผ่อนเอาแรงก่อนน้า...กอดอุ่น ๆ จากน้องเมดพร้อมส่งให้อยู่เสมอค่ะ ♡", img: "sad_1" }
       ]
     };
 
@@ -397,55 +439,120 @@
       } catch (e) {}
     }
 
+    // ฟังก์ชันเปลี่ยนหน้าต่าง
+    function showScreen(screenId) {
+      document.querySelectorAll('.card').forEach(card => card.classList.remove('active-card'));
+      document.getElementById(screenId).classList.add('active-card');
+    }
+
     function setTitle(title) {
       playBeep();
       userTitle = title;
       document.getElementById('btn-master').className = 'title-btn ' + (title === 'นายท่าน' ? 'active' : '');
       document.getElementById('btn-miss').className = 'title-btn ' + (title === 'คุณหนู' ? 'active' : '');
       document.getElementById('main-title').innerHTML = 'ยินดีต้อนรับกลับบ้านค่ะ<br>' + userTitle + '♡';
-      updateGreeting();
-      if (currentFortuneRaw) {
-        document.getElementById('fortune-box').innerText = '🔮การ์ดพลังใจวันนี้\n"' + currentFortuneRaw.replace(/{TITLE}/g, userTitle) + '"✨';
-      }
     }
 
-    function updateGreeting() {
+    function goToGreeting() {
+      playBeep();
+      // อัปเดตข้อความทักทายตามเวลา
       const h = new Date().getHours();
       const el = document.getElementById('time-greeting');
-      if (h >= 5 && h < 11) el.innerText = 'อรุณสวัสดิ์ค่ะ ' + userTitle + '! รับกาแฟหรือชาร้อนดีคะ☕✨';
-      else if (h >= 11 && h < 17) el.innerText = 'อย่าลืมหาอะไรอร่อยๆ ทานช่วงบ่ายนะคะ ' + userTitle + '♡';
-      else if (h >= 17 && h < 22) el.innerText = 'เหนื่อยมาทั้งวันเลยน้า...วันนี้รู้สึกยังไงบ้างคะ ' + userTitle + '✨';
-      else el.innerText = 'ดึกแล้วน้า...ทำไมยังไม่นอนอีกคะ เป็นห่วงจัง ' + userTitle + '♡';
+      const imgEl = document.getElementById('time-greeting-img');
+      
+      if (h >= 5 && h < 11) {
+        el.innerText = 'อรุณสวัสดิ์ค่ะ ' + userTitle + '! รับกาแฟหรือชาร้อนดีคะ☕✨';
+        imgEl.src = "https://placehold.co/300x200/ffccd5/ffffff?text=Morning+Maid"; // รูปตอนเช้า
+      } else if (h >= 11 && h < 17) {
+        el.innerText = 'อย่าลืมหาอะไรอร่อยๆ ทานช่วงบ่ายนะคะ ' + userTitle + '♡';
+        imgEl.src = "https://placehold.co/300x200/ffccd5/ffffff?text=Afternoon+Maid"; // รูปตอนบ่าย
+      } else if (h >= 17 && h < 22) {
+        el.innerText = 'เหนื่อยมาทั้งวันเลยน้า...วันนี้รู้สึกยังไงบ้างคะ ' + userTitle + '✨';
+        imgEl.src = "https://placehold.co/300x200/ffccd5/ffffff?text=Evening+Maid"; // รูปตอนเย็น
+      } else {
+        el.innerText = 'ดึกแล้วน้า...ทำไมยังไม่นอนอีกคะ เป็นห่วงจัง ' + userTitle + '♡';
+        imgEl.src = "https://placehold.co/300x200/ffccd5/ffffff?text=Night+Maid"; // รูปตอนดึก
+      }
+
+      showScreen('screen-greeting');
+    }
+
+    function goToMood() {
+      playBeep();
+      checkFortuneStatus();
+      showScreen('screen-select');
+    }
+
+    // ระบบการ์ดพลังใจ 1 ครั้ง/วัน
+    function checkFortuneStatus() {
+      const today = new Date().toLocaleDateString('th-TH');
+      const savedDate = localStorage.getItem('maidFortuneDate');
+      const savedText = localStorage.getItem('maidFortuneText');
+      const btn = document.getElementById('btn-fortune-draw');
+      
+      if (savedDate === today && savedText) {
+        btn.classList.add('disabled');
+        document.getElementById('fortune-btn-text').innerText = 'รับการ์ดของวันนี้ไปแล้วค่ะ✨';
+      } else {
+        btn.classList.remove('disabled');
+        document.getElementById('fortune-btn-text').innerText = '🔮สุ่มการ์ดพลังใจประจำวัน✨';
+      }
     }
 
     function drawFortune() {
       playBeep();
+      const today = new Date().toLocaleDateString('th-TH');
+      const savedDate = localStorage.getItem('maidFortuneDate');
+      const savedText = localStorage.getItem('maidFortuneText');
       const box = document.getElementById('fortune-box');
+      const btn = document.getElementById('btn-fortune-draw');
+
       box.style.display = 'block';
-      const r = Math.floor(Math.random() * fortuneList.length);
-      currentFortuneRaw = fortuneList[r];
-      box.innerText = '🔮การ์ดพลังใจวันนี้\n"' + currentFortuneRaw.replace(/{TITLE}/g, userTitle) + '"✨';
+
+      if (savedDate === today && savedText) {
+        // ถ้ารับไปแล้วในวันนี้ ให้แสดงข้อความเดิม
+        box.innerText = '🔮การ์ดพลังใจวันนี้ (รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
+      } else {
+        // สุ่มใหม่และบันทึก
+        const r = Math.floor(Math.random() * fortuneList.length);
+        const newFortune = fortuneList[r];
+        
+        localStorage.setItem('maidFortuneDate', today);
+        localStorage.setItem('maidFortuneText', newFortune);
+        
+        box.innerText = '🔮การ์ดพลังใจวันนี้\n"' + newFortune.replace(/{TITLE}/g, userTitle) + '"✨';
+        
+        btn.classList.add('disabled');
+        document.getElementById('fortune-btn-text').innerText = 'รับการ์ดของวันนี้ไปแล้วค่ะ✨';
+      }
     }
 
     function selectMood(key) {
       playBeep();
+      
+      // Auto-play BGM
       const bgm = document.getElementById('bgmMusic');
       if (bgm && bgm.paused) {
         bgm.play().then(() => {
           document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: เปิดอยู่ ♡';
         }).catch(() => {});
       }
-      const list = moodData[key] || moodData.happy;
-      const text = list[Math.floor(Math.random() * list.length)].replace(/{TITLE}/g, userTitle);
-      document.getElementById('screen-select').style.display = 'none';
-      document.getElementById('screen-result').style.display = 'block';
-      document.getElementById('message-box').innerText = text;
-    }
 
-    function goBack() {
-      playBeep();
-      document.getElementById('screen-result').style.display = 'none';
-      document.getElementById('screen-select').style.display = 'block';
+      // ดึงข้อมูลรูปภาพและข้อความ
+      const list = moodData[key] || moodData.happy;
+      const selectedObj = list[Math.floor(Math.random() * list.length)];
+      
+      const text = selectedObj.text.replace(/{TITLE}/g, userTitle);
+      const imgSrc = selectedObj.img;
+
+      document.getElementById('message-box').innerText = text;
+      
+      // อัปเดตรูปภาพน้องเมด
+      const maidImg = document.getElementById('maid-result-img');
+      maidImg.src = imgSrc;
+      maidImg.style.display = 'block';
+
+      showScreen('screen-result');
     }
 
     function toggleBGM() {
@@ -461,8 +568,6 @@
         document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่♡';
       }
     }
-
-    updateGreeting();
   </script>
 </body>
 </html>
