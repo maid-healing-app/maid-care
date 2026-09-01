@@ -283,11 +283,11 @@
 </head>
 <body>
 
-  <button class="bgm-control" id="bgmBtn" onclick="toggleBGM()">🎵 เสียงเพลง: ปิดอยู่ ♡</button>
+  <button class="bgm-control" id="bgmBtn" onclick="toggleBGM()">🎵 เสียงเพลง: ปิดอยู่♡</button>
 
-  <!-- หน้า Splash Screen: ปรับเป็นปุ่มกดเพื่อเริ่มเปิดระบบเสียง -->
+  <!-- หน้า Splash Screen: แสดงเฉพาะภาพต้นฉบับ ไม่ครอบวงกลม ไม่ตัดขอบ -->
   <div id="screen-splash" class="card active-card" style="padding: 40px 20px; text-align: center;">
-    <img src="Image/welcome_1.png" alt="Logo" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 16px;">
+    <img src="Image/welcome_1.png" alt="Logo" style="width: 140px; height: auto; margin-bottom: 16px; object-fit: contain; border-radius: 0;">
     <h1 style="color: #ff4d6d; font-size: 20px; font-weight: 700; letter-spacing: 1.5px;">MAID HEALING CARE</h1>
     <button class="btn-main" type="button" onclick="startApp()" style="margin-top: 24px;">✨ แตะเพื่อเริ่มคุยกับน้องเมด ♡</button>
   </div>
@@ -303,12 +303,12 @@
     <h2 id="main-title">ยินดีต้อนรับกลับบ้านค่ะ<br>นายท่าน♡</h2>
     <img src="Image/welcome_1.png" alt="Maid Welcome" class="maid-img" style="display: block;">
     
-    <button class="btn-main" type="button" onclick="goToGreeting()">🎀 เริ่มคุยกับน้องเมด 🎀</button>
+    <button class="btn-main" type="button" onclick="goToGreeting()">🎀เริ่มคุยกับน้องเมด🎀</button>
 
     <hr class="divider">
 
     <button id="btn-fortune-draw" class="btn-fortune" type="button" onclick="drawFortune()">
-      <span id="fortune-btn-text">🔮 สุ่มการ์ดพลังใจประจำวัน ✨</span>
+      <span id="fortune-btn-text">🔮สุ่มการ์ดพลังใจประจำวัน✨</span>
     </button>
     <div id="fortune-box" class="fortune-box"></div>
   </div>
@@ -448,13 +448,12 @@
       } catch (e) {}
     }
 
-    // เสียงวิงค์ฟรุ้งฟริ้ง (Sparkle / Twinkle sound)
     function playSparkleSound() {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         if (!AudioCtx) return;
         const ctx = new AudioCtx();
-        const notes = [1046.50, 1318.51, 1567.98, 2093.00, 2637.02]; // C6, E6, G6, C7, E7
+        const notes = [1046.50, 1318.51, 1567.98, 2093.00, 2637.02];
         notes.forEach((freq, i) => {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
@@ -471,8 +470,7 @@
       } catch (e) {}
     }
 
-    // ฟังก์ชันเล่น BGM แบบค่อยๆ เล่นดังขึ้น (Fade-in)
-    function fadeInBGM(targetVolume = 0.05, duration = 2000) {
+    function fadeInBGM(targetVolume = 0.1, duration = 2000) {
       const bgm = document.getElementById('bgmMusic');
       if (!bgm) return;
       bgm.volume = 0;
@@ -480,7 +478,7 @@
       const playPromise = bgm.play();
       if (playPromise !== undefined) {
         playPromise.then(() => {
-          document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: เปิดอยู่ ♡';
+          document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: เปิดอยู่♡';
           const steps = 20;
           const stepTime = duration / steps;
           const volumeStep = targetVolume / steps;
@@ -496,19 +494,17 @@
             }
           }, stepTime);
         }).catch(() => {
-          document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่ ♡';
+          document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่♡';
         });
       }
     }
 
-    // เริ่มต้นแอปเมื่อผู้ใช้กดปุ่มในหน้า Splash (ปลดล็อก Autoplay Audio Policy)
     function startApp() {
-      playSparkleSound();            // 1. เล่นเสียงวิงค์ฟรุ้งฟริ้งทันทีที่กด
-      showScreen('screen-welcome');  // 2. สลับไปหน้าแรก
+      playSparkleSound();
+      showScreen('screen-welcome');
 
-      // 3. หน่วงเวลา 400 มิลลิวินาที แล้วเริ่ม Fade-in BGM
       setTimeout(() => {
-        fadeInBGM(0.05, 2000);
+        fadeInBGM(0.1, 2000);
       }, 400);
     }
 
@@ -528,14 +524,13 @@
       const savedText = localStorage.getItem('maidFortuneText');
       const today = new Date().toLocaleDateString('th-TH');
       if (savedDate === today && savedText) {
-        document.getElementById('fortune-box').innerText = '🔮 การ์ดพลังใจวันนี้ (รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
+        document.getElementById('fortune-box').innerText = '🔮การ์ดพลังใจวันนี้ (รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
       }
     }
 
     function goToWelcome() {
       playBeep();
       
-      // หยุดเสียงพากย์เมื่อย้อนกลับหน้าแรก
       const voiceAudio = document.getElementById('voiceAudio');
       if (voiceAudio) {
         voiceAudio.pause();
@@ -549,10 +544,9 @@
     function goToGreeting() {
       playBeep();
 
-      // เล่นเพลง BGM อัตโนมัติถ้ายังไม่ได้เปิด
       const bgm = document.getElementById('bgmMusic');
       if (bgm && bgm.paused) {
-        fadeInBGM(0.05, 1000);
+        fadeInBGM(0.1, 1000);
       }
 
       const h = new Date().getHours();
@@ -579,7 +573,6 @@
     function goToMood() {
       playBeep();
       
-      // หยุดเสียงพากย์เดิมเมื่อกดย้อนกลับไปเลือกใหม่
       const voiceAudio = document.getElementById('voiceAudio');
       if (voiceAudio) {
         voiceAudio.pause();
@@ -600,10 +593,10 @@
         btn.classList.add('disabled');
         document.getElementById('fortune-btn-text').innerText = 'รับการ์ดของวันนี้ไปแล้วค่ะ✨';
         box.style.display = 'block';
-        box.innerText = '🔮 การ์ดพลังใจวันนี้(รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
+        box.innerText = '🔮การ์ดพลังใจวันนี้(รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
       } else {
         btn.classList.remove('disabled');
-        document.getElementById('fortune-btn-text').innerText = '🔮 สุ่มการ์ดพลังใจประจำวัน ✨';
+        document.getElementById('fortune-btn-text').innerText = '🔮สุ่มการ์ดพลังใจประจำวัน✨';
         box.style.display = 'none';
       }
     }
@@ -619,7 +612,7 @@
       box.style.display = 'block';
 
       if (savedDate === today && savedText) {
-        box.innerText = '🔮 การ์ดพลังใจวันนี้ (รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
+        box.innerText = '🔮การ์ดพลังใจวันนี้ (รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
       } else {
         const r = Math.floor(Math.random() * fortuneList.length);
         const newFortune = fortuneList[r];
@@ -627,7 +620,7 @@
         localStorage.setItem('maidFortuneDate', today);
         localStorage.setItem('maidFortuneText', newFortune);
         
-        box.innerText = '🔮 การ์ดพลังใจวันนี้\n"' + newFortune.replace(/{TITLE}/g, userTitle) + '"✨';
+        box.innerText = '🔮การ์ดพลังใจวันนี้\n"' + newFortune.replace(/{TITLE}/g, userTitle) + '"✨';
         
         btn.classList.add('disabled');
         document.getElementById('fortune-btn-text').innerText = 'รับการ์ดของวันนี้ไปแล้วค่ะ✨';
@@ -649,7 +642,6 @@
       maidImg.src = imgSrc;
       maidImg.style.display = 'block';
 
-      // เล่นเสียงตอบกลับของคำตอบนั้นๆ
       const voiceAudio = document.getElementById('voiceAudio');
       if (voiceAudio && selectedObj.audio) {
         voiceAudio.src = selectedObj.audio;
@@ -664,14 +656,13 @@
       const bgm = document.getElementById('bgmMusic');
       if (!bgm) return;
       if (bgm.paused) {
-        fadeInBGM(0.05, 800);
+        fadeInBGM(0.1, 800);
       } else {
         bgm.pause();
-        document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่ ♡';
+        document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่♡';
       }
     }
 
-    // ตรวจสอบสถานะการ์ดดวงเมื่อโหลดหน้าเว็บ
     checkFortuneStatus();
   </script>
 </body>
