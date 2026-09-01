@@ -382,7 +382,10 @@
     <button class="btn-main" type="button" onclick="goToWelcome()" style="margin-top: 8px;">🏠กลับไปหน้าแรก (ดูการ์ดพลังใจ)♡</button>
   </div>
 
+  <!-- แท็กจัดการเสียงต่างๆ -->
+  <audio id="splashSound" src="audio/00.m4a"></audio>
   <audio id="bgmMusic" src="bgm.mp3" loop></audio>
+  <audio id="voiceAudio" src=""></audio>
 
   <script>
     let userTitle = 'นายท่าน';
@@ -397,39 +400,39 @@
 
     const moodData = {
       happy: [
-        { text: "เย่! วันนี้รอยยิ้มของ{TITLE}สดใสมาก ๆ เลยค่ะ น้องเมดเห็นแล้วก็มีความสุขไปด้วยเลย✨", img: "Image/smile_2.png" },
-        { text: "มีเรื่องดี ๆ เกิดขึ้นเหรอคะ? มาเล่าให้น้องเมดฟังหน่อยน้า อยากฟังจังเลยค่ะ♡", img: "Image/smile_3.png" },
-        { text: "เห็น{TITLE}ยิ้มได้ น้องเมดก็มีพลังทำงานทั้งวันแล้วค่ะ! ลุยต่อเลยน้าฮึบ ๆ✨", img: "Image/happy_4.png" },
-        { text: "ว้าว วันนี้โชคดีแน่ ๆ เลยค่ะ! น้องเมดขอส่งความสุขเพิ่มให้เยอะ ๆ เลยนะ♡", img: "Image/smile_2.png" },
-        { text: "ยะหู้ว! ขอให้โลกของ{TITLE}สดใสแบบนี้ทุก ๆ วันไปเลยยย!!!", img: "Image/smile_2.png" }
+        { text: "เย่! วันนี้รอยยิ้มของ{TITLE}สดใสมาก ๆ เลยค่ะ น้องเมดเห็นแล้วก็มีความสุขไปด้วยเลย✨", img: "Image/smile_2.png", audio: "audio/1.m4a" },
+        { text: "มีเรื่องดี ๆ เกิดขึ้นเหรอคะ? มาเล่าให้น้องเมดฟังหน่อยน้า อยากฟังจังเลยค่ะ♡", img: "Image/smile_3.png", audio: "audio/2.m4a" },
+        { text: "เห็น{TITLE}ยิ้มได้ น้องเมดก็มีพลังทำงานทั้งวันแล้วค่ะ! ลุยต่อเลยน้าฮึบ ๆ✨", img: "Image/happy_4.png", audio: "audio/3.m4a" },
+        { text: "ว้าว วันนี้โชคดีแน่ ๆ เลยค่ะ! น้องเมดขอส่งความสุขเพิ่มให้เยอะ ๆ เลยนะ♡", img: "Image/smile_2.png", audio: "audio/4.m4a" },
+        { text: "ยะหู้ว! ขอให้โลกของ{TITLE}สดใสแบบนี้ทุก ๆ วันไปเลยยย!!!", img: "Image/smile_2.png", audio: "audio/5.m4a" }
       ],
       tired: [
-        { text: "ทิ้งความเหนื่อยไว้ข้างนอก แล้วพักตรงนี้นะคะ...เดี๋ยวน้องเมดจะช่วยดูแล{TITLE}เองค่ะ♡", img: "Image/welcome_1.png" },
-        { text: "วันนี้ทำงานหนักมากเลยใช่ไหมคะ? เก่งมากๆ แล้วน้า พักสายตาสักหน่อยนะคะ♡", img: "Image/happy_4.png" },
-        { text: "โอ๋เอ๋นะคะคนเก่ง วันนี้{TITLE}ทำได้ดีมาก ๆ แล้วค่ะ✨", img: "Image/sad_1.png" },
-        { text: "ทานขนมอร่อย ๆ ก่อนมั้ยคะ น้องเมดจะคอยอยู่ข้าง ๆ ไม่ไปไหนเลยค่ะ♡", img: "Image/welcome_1.png" },
-        { text: "วันนี้ผ่านไปได้ยอดเยี่ยมที่สุดแล้วค่ะ! {TITLE}ของน้องเมดเก่งที่สุดเลย✨", img: "Image/smile_2.png" }
+        { text: "ทิ้งความเหนื่อยไว้ข้างนอก แล้วพักตรงนี้นะคะ...เดี๋ยวน้องเมดจะช่วยดูแล{TITLE}เองค่ะ♡", img: "Image/welcome_1.png", audio: "audio/6.m4a" },
+        { text: "วันนี้ทำงานหนักมากเลยใช่ไหมคะ? เก่งมากๆ แล้วน้า พักสายตาสักหน่อยนะคะ♡", img: "Image/happy_4.png", audio: "audio/7.m4a" },
+        { text: "โอ๋เอ๋นะคะคนเก่ง วันนี้{TITLE}ทำได้ดีมาก ๆ แล้วค่ะ✨", img: "Image/sad_1.png", audio: "audio/8.m4a" },
+        { text: "ทานขนมอร่อย ๆ ก่อนมั้ยคะ น้องเมดจะคอยอยู่ข้าง ๆ ไม่ไปไหนเลยค่ะ♡", img: "Image/welcome_1.png", audio: "audio/9.m4a" },
+        { text: "วันนี้ผ่านไปได้ยอดเยี่ยมที่สุดแล้วค่ะ! {TITLE}ของน้องเมดเก่งที่สุดเลย✨", img: "Image/smile_2.png", audio: "audio/10.m4a" }
       ],
       lonely: [
-        { text: "รู้สึกเหงาเหรอคะ? ไม่เป็นไรน้า...น้องเมดอยู่นี่แล้ว จะไม่ปล่อยให้{TITLE}อยู่คนเดียวแน่นอนค่ะ♡", img: "Image/smile_2.png" },
-        { text: "คิดถึงน้องเมดใช่ไหมคะ? น้องเมดก็คิดถึง{TITLE}เหมือนกันนะคะ✨", img: "Image/smile_2.png" },
-        { text: "ไม่เป็นไรนะคะ ไม่ว่าเมื่อไหร่น้องเมดก็จะอยู่ข้าง ๆ {TITLE}เสมอค่ะ♡", img: "Image/smile_5.png" },
-        { text: "ถ้าเหงาเมื่อไหร่ แวะมาหาน้องเมดได้ตลอดเลยน้า น้องเมดรออยู่ตรงนี้เสมอค่ะ✨", img: "Image/welcome_1.png" },
-        { text: "ไม่เป็นไรน้า {TITLE}ยังมีน้องเมดคอยเป็นกำลังใจให้อยู่ตรงนี้เสมอเลยค่ะ♡", img: "Image/smile_1.png" }
+        { text: "รู้สึกเหงาเหรอคะ? ไม่เป็นไรน้า...น้องเมดอยู่นี่แล้ว จะไม่ปล่อยให้{TITLE}อยู่คนเดียวแน่นอนค่ะ♡", img: "Image/smile_2.png", audio: "audio/11.m4a" },
+        { text: "คิดถึงน้องเมดใช่ไหมคะ? น้องเมดก็คิดถึง{TITLE}เหมือนกันนะคะ✨", img: "Image/smile_2.png", audio: "audio/12.m4a" },
+        { text: "ไม่เป็นไรนะคะ ไม่ว่าเมื่อไหร่น้องเมดก็จะอยู่ข้าง ๆ {TITLE}เสมอค่ะ♡", img: "Image/smile_5.png", audio: "audio/13.m4a" },
+        { text: "ถ้าเหงาเมื่อไหร่ แวะมาหาน้องเมดได้ตลอดเลยน้า น้องเมดรออยู่ตรงนี้เสมอค่ะ✨", img: "Image/welcome_1.png", audio: "audio/14.m4a" },
+        { text: "ไม่เป็นไรน้า {TITLE}ยังมีน้องเมดคอยเป็นกำลังใจให้อยู่ตรงนี้เสมอเลยค่ะ♡", img: "Image/smile_1.png", audio: "audio/15.m4a" }
       ],
       angry: [
-        { text: "ใครทำให้{TITLE}อารมณ์เสียกันคะ! ใจเย็น ๆ ก่อนน้า น้องเมดจะคอยเป่าความโกรธให้เองค่ะ!", img: "Image/angry_1.png" },
-        { text: "สูดหายใจเข้าลึก ๆ นะคะ...ลองมองหน้าน้องเมดแล้วค่อย ๆ ผ่อนคลายน้า♡", img: "Image/welcome_1.png" },
-        { text: "อย่าเพิ่งหงุดหงิดไปเลยน้า เสียสุขภาพเปล่า ๆ มาทานขนมอร่อย ๆ กับน้องเมดดีกว่าค่ะ♡", img: "Image/smile_3.png" },
-        { text: "น้องเมดเข้าใจนะคะว่าน่าโมโหมาก ๆ แต่{TITLE}ยังมีน้องเมดอยู่ตรงนี้ด้วยน้า✨", img: "Image/smile_2.png" },
-        { text: "โยนเรื่องแย่ ๆ ทิ้งไปให้หมดเลยค่ะ! น้องเมดจะช่วยฮีลหัวใจ{TITLE}เอง♡", img: "Image/smile_5.png" }
+        { text: "ใครทำให้{TITLE}อารมณ์เสียกันคะ! ใจเย็น ๆ ก่อนน้า น้องเมดจะคอยเป่าความโกรธให้เองค่ะ!", img: "Image/angry_1.png", audio: "audio/16.m4a" },
+        { text: "สูดหายใจเข้าลึก ๆ นะคะ...ลองมองหน้าน้องเมดแล้วค่อย ๆ ผ่อนคลายน้า♡", img: "Image/welcome_1.png", audio: "audio/17.m4a" },
+        { text: "อย่าเพิ่งหงุดหงิดไปเลยน้า เสียสุขภาพเปล่า ๆ มาทานขนมอร่อย ๆ กับน้องเมดดีกว่าค่ะ♡", img: "Image/smile_3.png", audio: "audio/18.m4a" },
+        { text: "น้องเมดเข้าใจนะคะว่าน่าโมโหมาก ๆ แต่{TITLE}ยังมีน้องเมดอยู่ตรงนี้ด้วยน้า✨", img: "Image/smile_2.png", audio: "audio/19.m4a" },
+        { text: "โยนเรื่องแย่ ๆ ทิ้งไปให้หมดเลยค่ะ! น้องเมดจะช่วยฮีลหัวใจ{TITLE}เอง♡", img: "Image/smile_5.png", audio: "audio/20.m4a" }
       ],
       sad: [
-        { text: "อย่าแอบร้องไห้คนเดียวนะคะ...มาให้น้องเมดกอดแน่น ๆ ทีหนึ่งนะ ไม่เป็นไรแล้วค่ะ♡", img: "Image/sad_1.png" },
-        { text: "ถ้าเหนื่อยใจจะร้องไห้ออกมาก็ได้น้า น้องเมดจะคอยซับน้ำตาให้เองค่ะ✨", img: "Image/sad_1.png" },
-        { text: "วันนี้อาจจะใจร้ายไปหน่อย แต่พรุ่งนี้ต้องเป็นวันที่สดใสแน่นอนค่ะ น้องเมดเชื่อแบบนั้นนะ ♡", img: "Image/smile_11.png" },
-        { text: "ไม่ว่าเกิดอะไรขึ้น น้องเมดจะไม่มีวันทิ้ง{TITLE}ไปไหนแน่นอนค่ะ✨", img: "Image/smile_2.png" },
-        { text: "พักผ่อนเอาแรงก่อนน้า...อ้อมกอดอุ่น ๆ จากน้องเมดพร้อมส่งให้{TITLE}อยู่เสมอค่ะ♡", img: "Image/smile_9.png" }
+        { text: "อย่าแอบร้องไห้คนเดียวนะคะ...มาให้น้องเมดกอดแน่น ๆ ทีหนึ่งนะ ไม่เป็นไรแล้วค่ะ♡", img: "Image/sad_1.png", audio: "audio/21.m4a" },
+        { text: "ถ้าเหนื่อยใจจะร้องไห้ออกมาก็ได้น้า น้องเมดจะคอยซับน้ำตาให้เองค่ะ✨", img: "Image/sad_1.png", audio: "audio/22.m4a" },
+        { text: "วันนี้อาจจะใจร้ายไปหน่อย แต่พรุ่งนี้ต้องเป็นวันที่สดใสแน่นอนค่ะ น้องเมดเชื่อแบบนั้นนะ ♡", img: "Image/smile_11.png", audio: "audio/23.m4a" },
+        { text: "ไม่ว่าเกิดอะไรขึ้น น้องเมดจะไม่มีวันทิ้ง{TITLE}ไปไหนแน่นอนค่ะ✨", img: "Image/smile_2.png", audio: "audio/24.m4a" },
+        { text: "พักผ่อนเอาแรงก่อนน้า...อ้อมกอดอุ่น ๆ จากน้องเมดพร้อมส่งให้{TITLE}อยู่เสมอค่ะ♡", img: "Image/smile_9.png", audio: "audio/25.m4a" }
       ]
     };
 
@@ -473,27 +476,47 @@
 
     function goToWelcome() {
       playBeep();
+      
+      // หยุดเสียงพากย์เมื่อย้อนกลับหน้าแรก
+      const voiceAudio = document.getElementById('voiceAudio');
+      if (voiceAudio) {
+        voiceAudio.pause();
+        voiceAudio.currentTime = 0;
+      }
+
       checkFortuneStatus();
       showScreen('screen-welcome');
     }
 
     function goToGreeting() {
       playBeep();
+
+      // เล่นเพลง BGM อัตโนมัติและตั้งระดับเสียงเบาลง (20%)
+      const bgm = document.getElementById('bgmMusic');
+      if (bgm) {
+        bgm.volume = 0.2;
+        if (bgm.paused) {
+          bgm.play().then(() => {
+            document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: เปิดอยู่♡';
+          }).catch(() => {});
+        }
+      }
+
       const h = new Date().getHours();
       const el = document.getElementById('time-greeting');
       const imgEl = document.getElementById('time-greeting-img');
       
       if (h >= 5 && h < 11) {
-        el.innerText = 'อรุณสวัสดิ์ค่ะ ' + userTitle + '! รับกาแฟหรือชาร้อนดีคะ☕✨';
+        el.innerText = 'อรุณสวัสดิ์ค่ะ ' + userTitle + '! ขอวันนี้เป็นวันที่สดใสนะคะ✨';
         imgEl.src = "Image/smile_5.png";
       } else if (h >= 11 && h < 17) {
-        el.innerText = 'อย่าลืมหาอะไรอร่อยๆ ทานช่วงบ่ายนะคะ ' + userTitle + '♡';
+        el.innerText = 'อย่าลืมหาอะไรอร่อย ๆ ทานช่วงบ่ายนะคะ ' + userTitle + '♡';
         imgEl.src = "Image/smile_3.png";
       } else if (h >= 17 && h < 22) {
         el.innerText = 'เหนื่อยมาทั้งวันเลยน้า...วันนี้รู้สึกยังไงบ้างคะ ' + userTitle + '✨';
         imgEl.src = "Image/smile_1.png";
       } else {
-        el.innerText = 'ดึกแล้วน้า...ทำไมยังไม่นอนอีกคะ เป็นห่วงจัง ' + userTitle + '♡';
+        el.innerText = 'ดึกแล้วน้า...ทำไมยังไม่นอนอีกคะ ' + userTitle + '♡';
         imgEl.src = "Image/smile_4.png";
       }
 
@@ -502,6 +525,14 @@
 
     function goToMood() {
       playBeep();
+      
+      // หยุดเสียงพากย์เดิมเมื่อกดย้อนกลับไปเลือกใหม่
+      const voiceAudio = document.getElementById('voiceAudio');
+      if (voiceAudio) {
+        voiceAudio.pause();
+        voiceAudio.currentTime = 0;
+      }
+
       showScreen('screen-select');
     }
 
@@ -516,7 +547,7 @@
         btn.classList.add('disabled');
         document.getElementById('fortune-btn-text').innerText = 'รับการ์ดของวันนี้ไปแล้วค่ะ✨';
         box.style.display = 'block';
-        box.innerText = '🔮การ์ดพลังใจวันนี้ (รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
+        box.innerText = '🔮การ์ดพลังใจวันนี้(รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
       } else {
         btn.classList.remove('disabled');
         document.getElementById('fortune-btn-text').innerText = '🔮สุ่มการ์ดพลังใจประจำวัน✨';
@@ -552,13 +583,6 @@
 
     function selectMood(key) {
       playBeep();
-      
-      const bgm = document.getElementById('bgmMusic');
-      if (bgm && bgm.paused) {
-        bgm.play().then(() => {
-          document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: เปิดอยู่ ♡';
-        }).catch(() => {});
-      }
 
       const list = moodData[key] || moodData.happy;
       const selectedObj = list[Math.floor(Math.random() * list.length)];
@@ -572,6 +596,13 @@
       maidImg.src = imgSrc;
       maidImg.style.display = 'block';
 
+      // เล่นเสียงตอบกลับของคำตอบนั้นๆ
+      const voiceAudio = document.getElementById('voiceAudio');
+      if (voiceAudio && selectedObj.audio) {
+        voiceAudio.src = selectedObj.audio;
+        voiceAudio.play().catch(() => {});
+      }
+
       showScreen('screen-result');
     }
 
@@ -579,6 +610,7 @@
       playBeep();
       const bgm = document.getElementById('bgmMusic');
       if (!bgm) return;
+      bgm.volume = 0.2; // ปรับความดัง BGM 20%
       if (bgm.paused) {
         bgm.play().then(() => {
           document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: เปิดอยู่♡';
@@ -592,8 +624,13 @@
     // ตรวจสอบสถานะการ์ดดวงตั้งแต่หน้าแรก
     checkFortuneStatus();
 
-    // สลับจากหน้า Splash ไปหน้า Welcome หลังผ่านไป 2.5 วินาที
+    // เล่นเสียง Splash/โลโก้ และสลับจากหน้า Splash ไปหน้า Welcome หลังผ่านไป 2.5 วินาที
     window.addEventListener('DOMContentLoaded', () => {
+      const splashSound = document.getElementById('splashSound');
+      if (splashSound) {
+        splashSound.play().catch(() => {});
+      }
+
       setTimeout(() => {
         showScreen('screen-welcome');
       }, 2500);
