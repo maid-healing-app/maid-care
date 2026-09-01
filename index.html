@@ -377,7 +377,6 @@
     <button class="btn-main" type="button" onclick="goToWelcome()" style="margin-top: 8px;">🏠กลับไปหน้าแรก (ดูการ์ดพลังใจ)</button>
   </div>
 
-  <audio id="splashSound" src="audio/00.mp3"></audio>
   <audio id="bgmMusic" src="bgm.mp3" loop></audio>
   <audio id="voiceAudio" src=""></audio>
 
@@ -450,13 +449,8 @@
 
     // เสียงวิงค์ฟรุ้งฟริ้ง (Sparkle / Twinkle sound)
     function playSparkleSound() {
-      // 1. ลองเล่นจากไฟล์ MP3 (ถ้าเตรียมไฟล์เอาไว้ที่ audio/00.mp3)
-      const splashSound = document.getElementById('splashSound');
-      if (splashSound && splashSound.getAttribute('src')) {
-        splashSound.play().catch(() => {});
-      }
 
-      // 2. สร้างเสียงวิงค์สด ๆ แบบ Synth ใส ๆ สไตล์อนิเมะ
+      // สร้างเสียงวิงค์สด ๆ แบบ Synth ใส ๆ สไตล์อนิเมะ
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         if (!AudioCtx) return;
