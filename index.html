@@ -283,7 +283,7 @@
 </head>
 <body>
 
-  <button class="bgm-control" id="bgmBtn" onclick="toggleBGM()">🎵 เสียงเพลง: ปิดอยู่♡</button>
+  <button class="bgm-control" id="bgmBtn" onclick="toggleBGM()">🎵 เสียงเพลง: ปิดอยู่ ♡</button>
 
   <!-- หน้า Splash Screen: ปรับเป็นปุ่มกดเพื่อเริ่มเปิดระบบเสียง -->
   <div id="screen-splash" class="card active-card" style="padding: 40px 20px; text-align: center;">
@@ -303,12 +303,12 @@
     <h2 id="main-title">ยินดีต้อนรับกลับบ้านค่ะ<br>นายท่าน♡</h2>
     <img src="Image/welcome_1.png" alt="Maid Welcome" class="maid-img" style="display: block;">
     
-    <button class="btn-main" type="button" onclick="goToGreeting()">🎀เริ่มคุยกับน้องเมด🎀</button>
+    <button class="btn-main" type="button" onclick="goToGreeting()">🎀 เริ่มคุยกับน้องเมด 🎀</button>
 
     <hr class="divider">
 
     <button id="btn-fortune-draw" class="btn-fortune" type="button" onclick="drawFortune()">
-      <span id="fortune-btn-text">🔮สุ่มการ์ดพลังใจประจำวัน✨</span>
+      <span id="fortune-btn-text">🔮 สุ่มการ์ดพลังใจประจำวัน ✨</span>
     </button>
     <div id="fortune-box" class="fortune-box"></div>
   </div>
@@ -480,7 +480,7 @@
       const playPromise = bgm.play();
       if (playPromise !== undefined) {
         playPromise.then(() => {
-          document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: เปิดอยู่♡';
+          document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: เปิดอยู่ ♡';
           const steps = 20;
           const stepTime = duration / steps;
           const volumeStep = targetVolume / steps;
@@ -496,7 +496,7 @@
             }
           }, stepTime);
         }).catch(() => {
-          document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่♡';
+          document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่ ♡';
         });
       }
     }
@@ -528,7 +528,7 @@
       const savedText = localStorage.getItem('maidFortuneText');
       const today = new Date().toLocaleDateString('th-TH');
       if (savedDate === today && savedText) {
-        document.getElementById('fortune-box').innerText = '🔮การ์ดพลังใจวันนี้ (รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
+        document.getElementById('fortune-box').innerText = '🔮 การ์ดพลังใจวันนี้ (รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
       }
     }
 
@@ -600,10 +600,10 @@
         btn.classList.add('disabled');
         document.getElementById('fortune-btn-text').innerText = 'รับการ์ดของวันนี้ไปแล้วค่ะ✨';
         box.style.display = 'block';
-        box.innerText = '🔮การ์ดพลังใจวันนี้(รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
+        box.innerText = '🔮 การ์ดพลังใจวันนี้(รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
       } else {
         btn.classList.remove('disabled');
-        document.getElementById('fortune-btn-text').innerText = '🔮สุ่มการ์ดพลังใจประจำวัน✨';
+        document.getElementById('fortune-btn-text').innerText = '🔮 สุ่มการ์ดพลังใจประจำวัน ✨';
         box.style.display = 'none';
       }
     }
@@ -619,7 +619,7 @@
       box.style.display = 'block';
 
       if (savedDate === today && savedText) {
-        box.innerText = '🔮การ์ดพลังใจวันนี้ (รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
+        box.innerText = '🔮 การ์ดพลังใจวันนี้ (รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
       } else {
         const r = Math.floor(Math.random() * fortuneList.length);
         const newFortune = fortuneList[r];
@@ -627,7 +627,7 @@
         localStorage.setItem('maidFortuneDate', today);
         localStorage.setItem('maidFortuneText', newFortune);
         
-        box.innerText = '🔮การ์ดพลังใจวันนี้\n"' + newFortune.replace(/{TITLE}/g, userTitle) + '"✨';
+        box.innerText = '🔮 การ์ดพลังใจวันนี้\n"' + newFortune.replace(/{TITLE}/g, userTitle) + '"✨';
         
         btn.classList.add('disabled');
         document.getElementById('fortune-btn-text').innerText = 'รับการ์ดของวันนี้ไปแล้วค่ะ✨';
@@ -667,7 +667,7 @@
         fadeInBGM(0.1, 800);
       } else {
         bgm.pause();
-        document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่♡';
+        document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่ ♡';
       }
     }
 
