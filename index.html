@@ -285,10 +285,11 @@
 
   <button class="bgm-control" id="bgmBtn" onclick="toggleBGM()">🎵 เสียงเพลง: ปิดอยู่♡</button>
 
+  <!-- หน้า Splash Screen: ปรับเป็นปุ่มกดเพื่อเริ่มเปิดระบบเสียง -->
   <div id="screen-splash" class="card active-card" style="padding: 40px 20px; text-align: center;">
     <img src="Image/welcome_1.png" alt="Logo" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 16px;">
     <h1 style="color: #ff4d6d; font-size: 20px; font-weight: 700; letter-spacing: 1.5px;">MAID HEALING CARE</h1>
-    <p style="color: #d8839d; font-size: 13px; margin-top: 12px; font-weight: 600;">Loading... ♡</p>
+    <button class="btn-main" type="button" onclick="startApp()" style="margin-top: 24px;">✨ แตะเพื่อเริ่มคุยกับน้องเมด ♡</button>
   </div>
 
   <div id="screen-welcome" class="card">
@@ -449,8 +450,6 @@
 
     // เสียงวิงค์ฟรุ้งฟริ้ง (Sparkle / Twinkle sound)
     function playSparkleSound() {
-
-      // สร้างเสียงวิงค์สด ๆ แบบ Synth ใส ๆ สไตล์อนิเมะ
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         if (!AudioCtx) return;
@@ -497,10 +496,20 @@
             }
           }, stepTime);
         }).catch(() => {
-          // หากเบราว์เซอร์บล็อกการเล่นเสียงอัตโนมัติ
           document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่♡';
         });
       }
+    }
+
+    // เริ่มต้นแอปเมื่อผู้ใช้กดปุ่มในหน้า Splash (ปลดล็อก Autoplay Audio Policy)
+    function startApp() {
+      playSparkleSound();            // 1. เล่นเสียงวิงค์ฟรุ้งฟริ้งทันทีที่กด
+      showScreen('screen-welcome');  // 2. สลับไปหน้าแรก
+
+      // 3. หน่วงเวลา 400 มิลลิวินาที แล้วเริ่ม Fade-in BGM
+      setTimeout(() => {
+        fadeInBGM(0.1, 2000);
+      }, 400);
     }
 
     function showScreen(screenId) {
@@ -662,22 +671,8 @@
       }
     }
 
-    // ตรวจสอบสถานะการ์ดดวงตั้งแต่หน้าแรก
+    // ตรวจสอบสถานะการ์ดดวงเมื่อโหลดหน้าเว็บ
     checkFortuneStatus();
-
-    // เมื่อโหลดหน้าสำเร็จ รอ 2.5 วินาที -> เล่นเสียงวิงค์ -> เปลี่ยนหน้าไป Welcome -> ค่อยๆ เพิ่มระดับ BGM
-    window.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => {
-    playSparkleSound();          // 1. เล่นเสียงวิงค์ฟรุ้งฟริ้งก่อน
-    showScreen('screen-welcome'); // 2. สลับไปหน้าแรก
-
-    // 3. หน่วงเวลา 600 มิลลิวินาที (รอเสียงวิงค์จบ) แล้วค่อยเริ่ม Fade-in BGM
-    setTimeout(() => {
-      fadeInBGM(0.1, 2000);
-    }, 600);
-
-  }, 2500);
-});
   </script>
 </body>
 </html>
