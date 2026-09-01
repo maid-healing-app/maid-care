@@ -285,14 +285,12 @@
 
   <button class="bgm-control" id="bgmBtn" onclick="toggleBGM()">🎵 เสียงเพลง: ปิดอยู่♡</button>
 
-  <!-- หน้า Splash Screen (โหลดก่อนเข้าเว็บ) -->
   <div id="screen-splash" class="card active-card" style="padding: 40px 20px; text-align: center;">
     <img src="Image/welcome_1.png" alt="Logo" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 16px;">
     <h1 style="color: #ff4d6d; font-size: 20px; font-weight: 700; letter-spacing: 1.5px;">MAID HEALING CARE</h1>
     <p style="color: #d8839d; font-size: 13px; margin-top: 12px; font-weight: 600;">Loading... ♡</p>
   </div>
 
-  <!-- หน้าแรก: ยินดีต้อนรับ + การ์ดพลังใจประจำวัน -->
   <div id="screen-welcome" class="card">
     <div class="brand-tag">MAID HEALING CARE • ♡</div>
 
@@ -314,7 +312,6 @@
     <div id="fortune-box" class="fortune-box"></div>
   </div>
 
-  <!-- หน้า 2: ทักทายตามเวลา -->
   <div id="screen-greeting" class="card">
     <div class="brand-tag">MAID HEALING CARE • ♡</div>
     <h2 id="time-greeting" style="font-size: 16px; line-height: 1.5;">กำลังโหลดข้อความ...</h2>
@@ -323,7 +320,6 @@
     <button class="btn-main btn-secondary" type="button" onclick="goToWelcome()" style="margin-top: 8px;">↩ ย้อนกลับไปหน้าแรก♡</button>
   </div>
 
-  <!-- หน้า 3: เลือกอารมณ์ -->
   <div id="screen-select" class="card">
     <div class="brand-tag">MAID HEALING CARE • ♡</div>
     <h2>วันนี้รู้สึกยังไงบ้างคะ?</h2>
@@ -372,7 +368,6 @@
     <button class="btn-main btn-secondary" type="button" onclick="goToGreeting()" style="margin-top: 14px;">↩ ย้อนกลับ♡</button>
   </div>
 
-  <!-- หน้า 4: ผลลัพธ์อารมณ์ -->
   <div id="screen-result" class="card">
     <div class="brand-tag">MAID HEALING CARE • ♡</div>
     <h2>น้องเมดอยากบอกว่า...♡</h2>
@@ -382,7 +377,6 @@
     <button class="btn-main" type="button" onclick="goToWelcome()" style="margin-top: 8px;">🏠กลับไปหน้าแรก (ดูการ์ดพลังใจ)♡</button>
   </div>
 
-  <!-- แท็กจัดการเสียงต่างๆ -->
   <audio id="splashSound" src="audio/00.mp3"></audio>
   <audio id="bgmMusic" src="bgm.mp3" loop></audio>
   <audio id="voiceAudio" src=""></audio>
@@ -454,6 +448,67 @@
       } catch (e) {}
     }
 
+    // เสียงวิงค์ฟรุ้งฟริ้ง (Sparkle / Twinkle sound)
+    function playSparkleSound() {
+      // 1. ลองเล่นจากไฟล์ MP3 (ถ้าเตรียมไฟล์เอาไว้ที่ audio/00.mp3)
+      const splashSound = document.getElementById('splashSound');
+      if (splashSound && splashSound.getAttribute('src')) {
+        splashSound.play().catch(() => {});
+      }
+
+      // 2. สร้างเสียงวิงค์สด ๆ แบบ Synth ใส ๆ สไตล์อนิเมะ
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const notes = [1046.50, 1318.51, 1567.98, 2093.00, 2637.02]; // C6, E6, G6, C7, E7
+        notes.forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.06);
+          gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.06);
+          gain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + i * 0.06 + 0.01);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.06 + 0.3);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + i * 0.06);
+          osc.stop(ctx.currentTime + i * 0.06 + 0.3);
+        });
+      } catch (e) {}
+    }
+
+    // ฟังก์ชันเล่น BGM แบบค่อยๆ เล่นดังขึ้น (Fade-in)
+    function fadeInBGM(targetVolume = 0.2, duration = 2000) {
+      const bgm = document.getElementById('bgmMusic');
+      if (!bgm) return;
+      bgm.volume = 0;
+      
+      const playPromise = bgm.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: เปิดอยู่♡';
+          const steps = 20;
+          const stepTime = duration / steps;
+          const volumeStep = targetVolume / steps;
+          let currentVol = 0;
+
+          const fadeInterval = setInterval(() => {
+            currentVol += volumeStep;
+            if (currentVol >= targetVolume) {
+              bgm.volume = targetVolume;
+              clearInterval(fadeInterval);
+            } else {
+              bgm.volume = currentVol;
+            }
+          }, stepTime);
+        }).catch(() => {
+          // หากเบราว์เซอร์บล็อกการเล่นเสียงอัตโนมัติ
+          document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่♡';
+        });
+      }
+    }
+
     function showScreen(screenId) {
       document.querySelectorAll('.card').forEach(card => card.classList.remove('active-card'));
       document.getElementById(screenId).classList.add('active-card');
@@ -491,15 +546,10 @@
     function goToGreeting() {
       playBeep();
 
-      // เล่นเพลง BGM อัตโนมัติและตั้งระดับเสียงเบาลง (20%)
+      // เล่นเพลง BGM อัตโนมัติถ้ายังไม่ได้เปิด
       const bgm = document.getElementById('bgmMusic');
-      if (bgm) {
-        bgm.volume = 0.2;
-        if (bgm.paused) {
-          bgm.play().then(() => {
-            document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: เปิดอยู่♡';
-          }).catch(() => {});
-        }
+      if (bgm && bgm.paused) {
+        fadeInBGM(0.2, 1000);
       }
 
       const h = new Date().getHours();
@@ -610,11 +660,8 @@
       playBeep();
       const bgm = document.getElementById('bgmMusic');
       if (!bgm) return;
-      bgm.volume = 0.2; // ปรับความดัง BGM 20%
       if (bgm.paused) {
-        bgm.play().then(() => {
-          document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: เปิดอยู่♡';
-        }).catch(() => {});
+        fadeInBGM(0.2, 800);
       } else {
         bgm.pause();
         document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่♡';
@@ -624,15 +671,12 @@
     // ตรวจสอบสถานะการ์ดดวงตั้งแต่หน้าแรก
     checkFortuneStatus();
 
-    // เล่นเสียง Splash/โลโก้ และสลับจากหน้า Splash ไปหน้า Welcome หลังผ่านไป 2.5 วินาที
+    // เมื่อโหลดหน้าสำเร็จ รอ 2.5 วินาที -> เล่นเสียงวิงค์ -> เปลี่ยนหน้าไป Welcome -> ค่อยๆ เพิ่มระดับ BGM
     window.addEventListener('DOMContentLoaded', () => {
-      const splashSound = document.getElementById('splashSound');
-      if (splashSound) {
-        splashSound.play().catch(() => {});
-      }
-
       setTimeout(() => {
-        showScreen('screen-welcome');
+        playSparkleSound();          // 1. เล่นเสียงวิงค์ฟรุ้งฟริ้ง
+        showScreen('screen-welcome'); // 2. สลับไปหน้าแรก
+        fadeInBGM(0.2, 2000);        // 3. เพลง BGM ค่อยๆ ดังขึ้น 0% -> 20% ใน 2 วินาที
       }, 2500);
     });
   </script>
