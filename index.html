@@ -285,7 +285,7 @@
 
   <button class="bgm-control" id="bgmBtn" onclick="toggleBGM()">🎵 เสียงเพลง: ปิดอยู่♡</button>
 
-  <!-- หน้า Splash Screen: แสดงเฉพาะภาพต้นฉบับ ไม่ครอบวงกลม ไม่ตัดขอบ -->
+  <!-- หน้า Splash Screen: รูปภาพทรงสี่เหลี่ยมต้นฉบับ ไม่ตัดขอบ -->
   <div id="screen-splash" class="card active-card" style="padding: 40px 20px; text-align: center;">
     <img src="Image/welcome_1.png" alt="Logo" style="width: 140px; height: auto; margin-bottom: 16px; object-fit: contain; border-radius: 0;">
     <h1 style="color: #ff4d6d; font-size: 20px; font-weight: 700; letter-spacing: 1.5px;">MAID HEALING CARE</h1>
@@ -384,6 +384,11 @@
   <script>
     let userTitle = 'นายท่าน';
 
+    // ระบบควบคุมความดัง Web Audio API สำหรับ BGM บนโทรศัพท์
+    let bgmAudioCtx = null;
+    let bgmGainNode = null;
+    let bgmSourceNode = null;
+
     const fortuneList = [
       "วันนี้ดวงด้านรอยยิ้มพุ่งสูง 100% จะมีเรื่องน่ารัก ๆ เกิดขึ้นแน่นอนค่ะ✨",
       "พลังความตั้งใจของ{TITLE}วันนี้เต็มเปี่ยม ทำอะไรก็ราบรื่นแน่นอนค่ะ!🌟",
@@ -470,29 +475,46 @@
       } catch (e) {}
     }
 
-    function fadeInBGM(targetVolume = 0.1, duration = 2000) {
+    // สร้างหรือเชื่อมต่อ Web Audio Context สำหรับปรับเสียง BGM
+    function initBGMContext() {
+      if (!bgmAudioCtx) {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        bgmAudioCtx = new AudioCtx();
+        const bgm = document.getElementById('bgmMusic');
+        bgmSourceNode = bgmAudioCtx.createMediaElementSource(bgm);
+        bgmGainNode = bgmAudioCtx.createGain();
+        bgmSourceNode.connect(bgmGainNode);
+        bgmGainNode.connect(bgmAudioCtx.destination);
+      }
+    }
+
+    // ปรับความดัง BGM ให้อยู่ที่ 0.02 (2%) แบบคลอเบาๆ ไม่กลบเสียงพากย์
+    function fadeInBGM(targetVolume = 0.02, duration = 2000) {
       const bgm = document.getElementById('bgmMusic');
       if (!bgm) return;
-      bgm.volume = 0;
-      
-      const playPromise = bgm.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: เปิดอยู่♡';
-          const steps = 20;
-          const stepTime = duration / steps;
-          const volumeStep = targetVolume / steps;
-          let currentVol = 0;
 
-          const fadeInterval = setInterval(() => {
-            currentVol += volumeStep;
-            if (currentVol >= targetVolume) {
-              bgm.volume = targetVolume;
-              clearInterval(fadeInterval);
-            } else {
-              bgm.volume = currentVol;
-            }
-          }, stepTime);
+      try {
+        initBGMContext();
+        if (bgmAudioCtx.state === 'suspended') {
+          bgmAudioCtx.resume();
+        }
+
+        bgmGainNode.gain.cancelScheduledValues(bgmAudioCtx.currentTime);
+        bgmGainNode.gain.setValueAtTime(0, bgmAudioCtx.currentTime);
+
+        const playPromise = bgm.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: เปิดอยู่♡';
+            bgmGainNode.gain.linearRampToValueAtTime(targetVolume, bgmAudioCtx.currentTime + (duration / 1000));
+          }).catch(() => {
+            document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่♡';
+          });
+        }
+      } catch (e) {
+        bgm.volume = targetVolume;
+        bgm.play().then(() => {
+          document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: เปิดอยู่♡';
         }).catch(() => {
           document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่♡';
         });
@@ -504,7 +526,7 @@
       showScreen('screen-welcome');
 
       setTimeout(() => {
-        fadeInBGM(0.1, 2000);
+        fadeInBGM(0.02, 2000); // ตั้งระดับความดัง BGM ที่ 0.02 (2%)
       }, 400);
     }
 
@@ -546,7 +568,7 @@
 
       const bgm = document.getElementById('bgmMusic');
       if (bgm && bgm.paused) {
-        fadeInBGM(0.1, 1000);
+        fadeInBGM(0.02, 1000);
       }
 
       const h = new Date().getHours();
@@ -656,7 +678,7 @@
       const bgm = document.getElementById('bgmMusic');
       if (!bgm) return;
       if (bgm.paused) {
-        fadeInBGM(0.1, 800);
+        fadeInBGM(0.02, 800);
       } else {
         bgm.pause();
         document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่♡';
