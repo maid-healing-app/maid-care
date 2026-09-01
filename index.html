@@ -473,7 +473,7 @@
     }
 
     // ฟังก์ชันเล่น BGM แบบค่อยๆ เล่นดังขึ้น (Fade-in)
-    function fadeInBGM(targetVolume = 0.2, duration = 2000) {
+    function fadeInBGM(targetVolume = 0.1, duration = 2000) {
       const bgm = document.getElementById('bgmMusic');
       if (!bgm) return;
       bgm.volume = 0;
@@ -543,7 +543,7 @@
       // เล่นเพลง BGM อัตโนมัติถ้ายังไม่ได้เปิด
       const bgm = document.getElementById('bgmMusic');
       if (bgm && bgm.paused) {
-        fadeInBGM(0.2, 1000);
+        fadeInBGM(0.1, 1000);
       }
 
       const h = new Date().getHours();
@@ -655,7 +655,7 @@
       const bgm = document.getElementById('bgmMusic');
       if (!bgm) return;
       if (bgm.paused) {
-        fadeInBGM(0.2, 800);
+        fadeInBGM(0.1, 800);
       } else {
         bgm.pause();
         document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่♡';
@@ -673,7 +673,7 @@
 
     // 3. หน่วงเวลา 600 มิลลิวินาที (รอเสียงวิงค์จบ) แล้วค่อยเริ่ม Fade-in BGM
     setTimeout(() => {
-      fadeInBGM(0.2, 2000);
+      fadeInBGM(0.1, 2000);
     }, 600);
 
   }, 2500);
