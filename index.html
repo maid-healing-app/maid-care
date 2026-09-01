@@ -57,7 +57,7 @@
       margin: auto;
       height: auto;
       overflow: visible;
-      display: none; /* ซ่อนทุกหน้าไว้ก่อน แล้วใช้ JS เปิดหน้าแรก */
+      display: none;
     }
 
     .active-card {
@@ -248,6 +248,11 @@
       transform: scale(0.98);
     }
 
+    .btn-secondary {
+      background: #ff9ebb;
+      box-shadow: 0 4px 12px rgba(255, 158, 187, 0.3);
+    }
+
     #message-box {
       margin-top: 14px;
       font-size: 14px;
@@ -280,7 +285,7 @@
 
   <button class="bgm-control" id="bgmBtn" onclick="toggleBGM()">🎵 เสียงเพลง: ปิดอยู่♡</button>
 
-  <!-- หน้าแรก: ยินดีต้อนรับ -->
+  <!-- หน้าแรก: ยินดีต้อนรับ + การ์ดพลังใจประจำวัน -->
   <div id="screen-welcome" class="card active-card">
     <div class="brand-tag">MAID HEALING CARE • ♡</div>
 
@@ -293,6 +298,13 @@
     <img src="welcome_1.png" alt="Maid Welcome" class="maid-img" style="display: block;">
     
     <button class="btn-main" type="button" onclick="goToGreeting()">เริ่มคุยกับน้องเมด ✨</button>
+
+    <hr class="divider">
+
+    <button id="btn-fortune-draw" class="btn-fortune" type="button" onclick="drawFortune()">
+      <span id="fortune-btn-text">🔮สุ่มการ์ดพลังใจประจำวัน✨</span>
+    </button>
+    <div id="fortune-box" class="fortune-box"></div>
   </div>
 
   <!-- หน้า 2: ทักทายตามเวลา -->
@@ -304,7 +316,7 @@
     <button class="btn-main" type="button" onclick="goToMood()">บอกอารมณ์ของวันนี้ ♡</button>
   </div>
 
-  <!-- หน้า 3: เลือกอารมณ์และการ์ดพลังใจ -->
+  <!-- หน้า 3: เลือกอารมณ์ -->
   <div id="screen-select" class="card">
     <div class="brand-tag">MAID HEALING CARE • ♡</div>
     <h2>วันนี้รู้สึกยังไงบ้างคะ?</h2>
@@ -350,22 +362,16 @@
         <span class="arrow-icon">›</span>
       </button>
     </div>
-
-    <hr class="divider">
-
-    <button id="btn-fortune-draw" class="btn-fortune" type="button" onclick="drawFortune()">
-      <span id="fortune-btn-text">🔮สุ่มการ์ดพลังใจประจำวัน✨</span>
-    </button>
-    <div id="fortune-box" class="fortune-box"></div>
   </div>
 
-  <!-- หน้า 4: ผลลัพธ์อารมณ์ (รูป + ข้อความ) -->
+  <!-- หน้า 4: ผลลัพธ์อารมณ์ (มีปุ่มย้อนกลับไปหน้าแรก และหน้าเลือกอารมณ์) -->
   <div id="screen-result" class="card">
     <div class="brand-tag">MAID HEALING CARE • ♡</div>
     <h2>น้องเมดอยากบอกว่า...♡</h2>
     <img id="maid-result-img" src="" alt="Maid Reaction" class="maid-img">
     <div id="message-box">...</div>
-    <button class="btn-main" type="button" onclick="goToMood()">↩ ย้อนกลับไปหน้าเลือกอารมณ์♡</button>
+    <button class="btn-main btn-secondary" type="button" onclick="goToMood()" style="margin-top: 14px;">↩ เลือกอารมณ์อีกครั้ง♡</button>
+    <button class="btn-main" type="button" onclick="goToWelcome()" style="margin-top: 8px;">🏠 กลับไปหน้าแรก (ดูการ์ดพลังใจ)♡</button>
   </div>
 
   <audio id="bgmMusic" src="bgm.mp3" loop></audio>
@@ -373,7 +379,6 @@
   <script>
     let userTitle = 'คุณหนู';
 
-    // รายการการ์ดพลังใจ
     const fortuneList = [
       "วันนี้ดวงด้านรอยยิ้มพุ่งสูง 100% จะมีเรื่องน่ารัก ๆ เกิดขึ้นแน่นอนค่ะ✨",
       "พลังความตั้งใจของ{TITLE}วันนี้เต็มเปี่ยม ทำอะไรก็ราบรื่นแน่นอนค่ะ!🌟",
@@ -382,7 +387,6 @@
       "วันนี้คือวันที่สดใส และน้องเมดจะคอยส่งกำลังใจให้อยู่ตรงนี้นะคะ💖"
     ];
 
-    // ข้อมูลคำพูดอารมณ์ + ลิงก์รูปภาพ (สามารถเปลี่ยน URL รูปเป็นรูปน้องเมดของจริงได้เลย)
     const moodData = {
       happy: [
         { text: "เย้! วันนี้รอยยิ้มของ{TITLE}สดใสมาก ๆ เลยค่ะ น้องเมดเห็นแล้วมีความสุขไปด้วยเลย✨", img: "happy_4.png" },
@@ -439,7 +443,6 @@
       } catch (e) {}
     }
 
-    // ฟังก์ชันเปลี่ยนหน้าต่าง
     function showScreen(screenId) {
       document.querySelectorAll('.card').forEach(card => card.classList.remove('active-card'));
       document.getElementById(screenId).classList.add('active-card');
@@ -451,27 +454,40 @@
       document.getElementById('btn-master').className = 'title-btn ' + (title === 'นายท่าน' ? 'active' : '');
       document.getElementById('btn-miss').className = 'title-btn ' + (title === 'คุณหนู' ? 'active' : '');
       document.getElementById('main-title').innerHTML = 'ยินดีต้อนรับกลับบ้านค่ะ<br>' + userTitle + '♡';
+      
+      // อัปเดตข้อความการ์ดดวงหากเปิดค้างไว้
+      const savedDate = localStorage.getItem('maidFortuneDate');
+      const savedText = localStorage.getItem('maidFortuneText');
+      const today = new Date().toLocaleDateString('th-TH');
+      if (savedDate === today && savedText) {
+        document.getElementById('fortune-box').innerText = '🔮การ์ดพลังใจวันนี้ (รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
+      }
+    }
+
+    function goToWelcome() {
+      playBeep();
+      checkFortuneStatus();
+      showScreen('screen-welcome');
     }
 
     function goToGreeting() {
       playBeep();
-      // อัปเดตข้อความทักทายตามเวลา
       const h = new Date().getHours();
       const el = document.getElementById('time-greeting');
       const imgEl = document.getElementById('time-greeting-img');
       
       if (h >= 5 && h < 11) {
         el.innerText = 'อรุณสวัสดิ์ค่ะ ' + userTitle + '! รับกาแฟหรือชาร้อนดีคะ☕✨';
-        imgEl.src = "smile_1.png"; // รูปตอนเช้า
+        imgEl.src = "smile_1.png";
       } else if (h >= 11 && h < 17) {
         el.innerText = 'อย่าลืมหาอะไรอร่อยๆ ทานช่วงบ่ายนะคะ ' + userTitle + '♡';
-        imgEl.src = "smile_2.png"; // รูปตอนบ่าย
+        imgEl.src = "smile_2.png";
       } else if (h >= 17 && h < 22) {
         el.innerText = 'เหนื่อยมาทั้งวันเลยน้า...วันนี้รู้สึกยังไงบ้างคะ ' + userTitle + '✨';
-        imgEl.src = "happy_4.png"; // รูปตอนเย็น
+        imgEl.src = "happy_4.png";
       } else {
         el.innerText = 'ดึกแล้วน้า...ทำไมยังไม่นอนอีกคะ เป็นห่วงจัง ' + userTitle + '♡';
-        imgEl.src = "angry_1.png"; // รูปตอนดึก
+        imgEl.src = "angry_1.png";
       }
 
       showScreen('screen-greeting');
@@ -479,23 +495,25 @@
 
     function goToMood() {
       playBeep();
-      checkFortuneStatus();
       showScreen('screen-select');
     }
 
-    // ระบบการ์ดพลังใจ 1 ครั้ง/วัน
     function checkFortuneStatus() {
       const today = new Date().toLocaleDateString('th-TH');
       const savedDate = localStorage.getItem('maidFortuneDate');
       const savedText = localStorage.getItem('maidFortuneText');
       const btn = document.getElementById('btn-fortune-draw');
+      const box = document.getElementById('fortune-box');
       
       if (savedDate === today && savedText) {
         btn.classList.add('disabled');
         document.getElementById('fortune-btn-text').innerText = 'รับการ์ดของวันนี้ไปแล้วค่ะ✨';
+        box.style.display = 'block';
+        box.innerText = '🔮การ์ดพลังใจวันนี้ (รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
       } else {
         btn.classList.remove('disabled');
         document.getElementById('fortune-btn-text').innerText = '🔮สุ่มการ์ดพลังใจประจำวัน✨';
+        box.style.display = 'none';
       }
     }
 
@@ -510,10 +528,8 @@
       box.style.display = 'block';
 
       if (savedDate === today && savedText) {
-        // ถ้ารับไปแล้วในวันนี้ ให้แสดงข้อความเดิม
         box.innerText = '🔮การ์ดพลังใจวันนี้ (รับแล้ว)\n"' + savedText.replace(/{TITLE}/g, userTitle) + '"✨';
       } else {
-        // สุ่มใหม่และบันทึก
         const r = Math.floor(Math.random() * fortuneList.length);
         const newFortune = fortuneList[r];
         
@@ -530,7 +546,6 @@
     function selectMood(key) {
       playBeep();
       
-      // Auto-play BGM
       const bgm = document.getElementById('bgmMusic');
       if (bgm && bgm.paused) {
         bgm.play().then(() => {
@@ -538,7 +553,6 @@
         }).catch(() => {});
       }
 
-      // ดึงข้อมูลรูปภาพและข้อความ
       const list = moodData[key] || moodData.happy;
       const selectedObj = list[Math.floor(Math.random() * list.length)];
       
@@ -547,7 +561,6 @@
 
       document.getElementById('message-box').innerText = text;
       
-      // อัปเดตรูปภาพน้องเมด
       const maidImg = document.getElementById('maid-result-img');
       maidImg.src = imgSrc;
       maidImg.style.display = 'block';
@@ -568,6 +581,9 @@
         document.getElementById('bgmBtn').innerText = '🎵 เสียงเพลง: ปิดอยู่♡';
       }
     }
+
+    // ตรวจสอบสถานะการ์ดดวงตั้งแต่น้ำเข้าหน้าแรก
+    checkFortuneStatus();
   </script>
 </body>
 </html>
